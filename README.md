@@ -10,7 +10,7 @@
 It's like Tinder for your dogs! Put in your twitter handle and information about your dog to find local dogs to you! 
 
 ## APIs Used: 
-`[Twitter API](https://dev.twitter.com/overview/api)` and `[Google Maps API](https://developers.google.com/maps/)`
+[`Twitter API`](https://dev.twitter.com/overview/api) and [`Google Maps API`](https://developers.google.com/maps/)
 
 
 ## Wireframe:
