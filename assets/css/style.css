@@ -3,5 +3,13 @@ body{
 }
 #mainContent{
 	background-color: white; 
-	width: 50%;
+	width: 60%;
+	margin-top: 
+}
+#map{
+	margin: 10px;
+	height: 50em;
+}
+#submit-info{
+	margin: 20px;
 }

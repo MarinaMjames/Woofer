@@ -1,6 +1,7 @@
 // for materialize dropdowns
 $(document).ready(function() {
 	$('select').material_select();
+  $('.modal').modal();
 });
 
 // variables to store user info from form
