@@ -2,6 +2,76 @@
 <html>
 <head>
 	<title>Woofer</title>
+
+	<!--Reset css link-->
+	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+	<!-- Google Font link-->
+	<link href="https://fonts.googleapis.com/css?family=News+Cycle" rel="stylesheet">
+	<!--Materialize Link-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+	<!--My link for css-->
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+<h1>Woofer</h1>
+
+<div class="row" id="mainContent">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="full_name" type="text" class="validate">
+          <label for="full_name">Full Name</label>
+        </div>
+        </div>
+        <div class="row">
+        <div class="input-field col s12">
+          <input id="twitter_handle" type="text" class="validate">
+          <label for="twitter_handle">Twitter Handle</label>
+        </div>
+      </div>
+            <div class="row">
+     <div class="input-field col s12">
+          <input id="dog_name" type="text" class="validate">
+          <label for="dog_name">Dogs Name</label>
+        </div>
+      </div>
+      <div class="row">
+     <div class="input-field col s12">
+          <input id="dog_breed" type="text" class="validate">
+          <label for="dog_breed">Dog Breed</label>
+        </div>
+      </div>
+      <div class="row">
+<div class="input-field col s12">
+    <select id="dog_temp">
+      <option value="" disabled selected>Dogs Temperament</option>
+      <option value="Calm">Calm</option>
+      <option value="Hyperactive">Hyperactive</option>
+      <option value="Shy">Shy</option>
+      <option value="Playful">Playful</option>
+    </select>
+  </div>
+</div>
+<div class="row">
+     <div class="input-field col s12">
+    <select id="dog_age">
+      <option value="" disabled selected>Dogs Age</option>
+      <option value="Puppy 0-12 Months">Puppy 0-12 Months</option>
+      <option value="Adult 1-7 Years">Adult 1-7 Years</option>
+      <option value="Senior 7+ Years">Senior 7+ Years</option>
+    </select>
+  </div>
+      </div>
+      <center><a class="waves-effect waves-light btn" id="submit-info">Sign In</a></center>
+    </form>
+  </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+  <script type="text/javascript" src="assets/javascript/app.js"></script>
+=======
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 	<meta charset="utf-8">
 	<style>
@@ -23,5 +93,6 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB04JBtICm3X_pnv53olgskaJ3ttfIRtHw&callback=initMap" async defer></script>
 <script type="text/javascript" src="assets/javascript/app.js"></script>
+
 </body>
 </html>
