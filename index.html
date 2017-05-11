@@ -2,20 +2,21 @@
 <html>
 <head>
 	<title>Woofer</title>
+
 	<!--Reset css link-->
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 	<!-- Google Font link-->
 	<link href="https://fonts.googleapis.com/css?family=News+Cycle" rel="stylesheet">
 	<!--Materialize Link-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
-	<!--My link for css-->
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<style type="text/css">
 		.map {
 			height: 50em;
 			margin: 0 10px;
 		}
 	</style>
+	
 </head>
 <body>
 <h1>Woofer</h1>
@@ -24,7 +25,7 @@
     <form class="col s12">
       <div class="row">
         <div class="input-field col s12">
-          <input placeholder="" id="full_name" type="text" class="validate">
+          <input id="full_name" type="text" class="validate">
           <label for="full_name">Full Name</label>
         </div>
         </div>
@@ -51,9 +52,9 @@
     <select id="dog_temp">
       <option value="" disabled selected>Dogs Temperament</option>
       <option value="Calm">Calm</option>
-      <option value="2">Hyperactive</option>
-      <option value="3">Shy</option>
-      <option value="4">Playful</option>
+      <option value="Hyperactive">Hyperactive</option>
+      <option value="Shy">Shy</option>
+      <option value="Playful">Playful</option>
     </select>
   </div>
 </div>
@@ -61,19 +62,21 @@
      <div class="input-field col s12">
     <select id="dog_age">
       <option value="" disabled selected>Dogs Age</option>
-      <option value="1">Puppy 0-12 Months</option>
-      <option value="2">Adult 1-7 Years</option>
-      <option value="3">Senior 7+ Years</option>
+      <option value="Puppy 0-12 Months">Puppy 0-12 Months</option>
+      <option value="Adult 1-7 Years">Adult 1-7 Years</option>
+      <option value="Senior 7+ Years">Senior 7+ Years</option>
     </select>
   </div>
       </div>
       <center><a class="waves-effect waves-light btn" id="submit-info">Sign In</a></center>
     </form>
   </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-<!-- Compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB04JBtICm3X_pnv53olgskaJ3ttfIRtHw" async defer></script>
-<script type="text/javascript" src="assets/javascript/app.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB04JBtICm3X_pnv53olgskaJ3ttfIRtHw" async defer></script>
+	<script type="text/javascript" src="assets/javascript/app.js"></script>
+
 </body>
 </html>
