@@ -1,7 +1,9 @@
+// for materialize dropdowns
 $(document).ready(function() {
 	$('select').material_select();
 });
 
+// variables to store user info from form
 var userName = "";
 var twitterHandle = "";
 var dogName = "";
@@ -9,13 +11,11 @@ var dogBreed = "";
 var dogTemp = "";
 var dogAge = "";
 
-
+// on click function for form submit button
 $("#submit-info").on("click", function() {
 	event.preventDefault();
 
-	var dogTempDrop = $("#dog_temp");
-	var dogAgeDrop = $("#dog_age");
-
+	// set user input to appropriate variables
 	userName = $("#full_name").val().trim();
 	twitterHandle = $("#twitter_handle").val().trim();
 	dogName = $("#dog_name").val().trim();
@@ -30,9 +30,12 @@ $("#submit-info").on("click", function() {
 	console.log("dogTemp: "+dogTemp);
 	console.log("dogAge: "+dogAge);
 
+	// empty mainContent div and append a div for the map to it
 	$("#mainContent").empty();
-	$("#mainContent").addClass("map");
+	var mapDiv = $("<div>").attr("id", "map");
+	$("#mainContent").append(mapDiv);
 
+	// run function to display map
 	initMap();
 });
 
@@ -48,7 +51,7 @@ $("#submit-info").on("click", function() {
 var map, infoWindow;
 
 function initMap() {
-	map = new google.maps.Map(document.getElementById('mainContent'), {
+	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: 40.712, lng: -74.0059},
 		zoom: 8
 	});
