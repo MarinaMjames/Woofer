@@ -1,14 +1,15 @@
 
-	var yourKey = "key=07e7adfc27bd9872413e0961018c8013&";/*Insert Your Key*/
+	var yourKey = "key=07e7adfc27bd9872413e0961018c8013&";
 	var baseURL = "https://api.petfinder.com/";
 	var reqType = "pet.find?";
-	var params = "animal=dog&count=15&location=08801&";
+	var dogSearch = "animal=dog&";
+	var params = "count=15&location=08801&";
 	var format = "format=json";
 
 
 	
 	// https://api.petfinder.com/pet.find?animal-dog&count=15&key=07e7adfc27bd9872413e0961018c8013&format=json
-	var fullURL = baseURL+reqType+params+yourKey+format;
+	var fullURL = baseURL+reqType+dogSearch+params+yourKey+format;
 	$.ajax({ 
 	  method: 'GET', 
 	  url: fullURL + '&callback=?', 
