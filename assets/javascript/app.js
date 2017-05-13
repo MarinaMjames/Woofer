@@ -17,31 +17,26 @@ $(document).ready(function() {
 });
 
 // variables to store user info from form
-var userName = "";
-var twitterHandle = "";
-var dogName = "";
 var dogBreed = "";
-var dogTemp = "";
+var dogGender = "";
 var dogAge = "";
+var dogSize = "";
 
 // on click function for form submit button
 $("#submit-info").on("click", function() {
 	event.preventDefault();
 
 	// set user input to appropriate variables
-	userName = $("#full_name").val().trim();
-	twitterHandle = $("#twitter_handle").val().trim();
-	dogName = $("#dog_name").val().trim();
 	dogBreed = $("#dog_breed").val().trim();
-	dogTemp = $("#dog_temp").val();
+	dogGender = $("#dog_gender").val();
 	dogAge = $("#dog_age").val();
+  dogSize = $("#dog_size").val();
 
-	console.log("userName: "+userName);
-	console.log("twitterHandle: "+twitterHandle);
-	console.log("dogName: "+dogName);
+
 	console.log("dogBreed: "+dogBreed);
-	console.log("dogTemp: "+dogTemp);
+	console.log("dogGender: "+dogGender);
 	console.log("dogAge: "+dogAge);
+  console.log("dogSize: "+dogSize);
 
 	// empty mainContent div and append a div for the map to it
 	$("#mainContent").empty();
