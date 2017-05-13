@@ -3,13 +3,18 @@
 	var baseURL = "https://api.petfinder.com/";
 	var reqType = "pet.find?";
 	var dogSearch = "animal=dog&";
-	var params = "count=15&location=08801&";
+	var searchCount = "count=15&";
+	var searchLocation = "location=08801&";
+	var searchSex = "sex=F&"
+	var searchSize = "size=M&"
+	var searchAge = "age=Young&"
 	var format = "format=json";
 
 
 	
 	// https://api.petfinder.com/pet.find?animal-dog&count=15&key=07e7adfc27bd9872413e0961018c8013&format=json
-	var fullURL = baseURL+reqType+dogSearch+params+yourKey+format;
+	var fullURL = baseURL+reqType+dogSearch+searchCount+searchLocation
+	+searchSex+searchSize+searchAge+yourKey+format;
 	$.ajax({ 
 	  method: 'GET', 
 	  url: fullURL + '&callback=?', 
@@ -28,6 +33,8 @@
 		var petContact = foundPet.contact
 		// stores phone number to contact 
 		// shelter for pet in variable
+			console.log("------------------")
+			console.log("--Location Info---")
 		var petPhone = petContact.phone.$t
 			console.log("PET PHONE: " + petPhone) 
 		// stores email to contact
@@ -41,8 +48,9 @@
 		// in a varible
 		var petZip = petContact.zip.$t
 			console.log("PET ZIP: " + petZip)
-			console.log("------------------")
+			
 		// stores age of pet in a variable
+			console.log("-----Pet Info-----")
 		var petAge = foundPet.age.$t
 			console.log("PET AGE: " + petAge)
 		// stores size of pet in a variable
@@ -54,13 +62,15 @@
 		// stores gender of pet in a variable
 		var petSex = foundPet.sex.$t
 			console.log("PET SEX: " + petSex)
-			console.log("------------------")
-		// stores Shelter ID for pet in a variable 
-		var petShelterID = foundPet.shelterId.$t
-			console.log("SHELTER ID: " + petShelterID)
+			
 		// stores image of pet in a variable
 		var petImage = foundPet.media.photos.photo[7].$t
 			console.log("PET IMAGE: " + petImage)
+		// stores Shelter ID for pet in a variable 
+		var petShelterID = foundPet.shelterId.$t
+			console.log("SHELTER ID: " + petShelterID)
+			console.log("------------------")
+		
 		}
 
 	  });
