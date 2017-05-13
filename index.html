@@ -7,61 +7,21 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 	<!-- Google Font link-->
 	<link href="https://fonts.googleapis.com/css?family=News+Cycle" rel="stylesheet">
+	<script src="https://use.fontawesome.com/9639f71805.js"></script>
 	<!--Materialize Link-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<style type="text/css">
-		#map {
-			height: 50em;
-			margin: 10px;
-		}
-	</style>
 	
 </head>
 <body>
-<h1>Woofer</h1>
-
-<div class="row" id="mainContent">
-    <form class="col s12">
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="dog_breed" type="text" class="validate">
-          <label for="dog_breed">Dog Breed</label>
-        </div>
-      </div>
-<div class="row">
-     <div class="input-field col s12">
-    <select id="dog_gender">
-      <option value="" disabled selected>Dogs Gender</option>
-      <option value="Male">Male</option>
-      <option value="Female">Female</option>
-    </select>
-  </div>
+<div class="header topnav">
+  <!--Logo-->
+  <div class="header title">WOOFER</div>
+  <br><br>
+    <!--Links in Header-->
+    <button type="button" class="waves-effect waves-light btn"><a href="home.html"><i class="fa fa-home" aria-hidden="true"></i></button></a>
 </div>
-<div class="row">
-     <div class="input-field col s12">
-    <select id="dog_age">
-      <option value="" disabled selected>Dogs Age</option>
-      <option value="Baby">Baby</option>
-      <option value="Puppy">Puppy</option>
-      <option value="Adult">Adult</option>
-      <option value="Senior">Senior</option>
-    </select>
-  </div>
-  <div class="row">
-     <div class="input-field col s12">
-    <select id="dog_size">
-      <option value="" disabled selected>Dogs Size</option>
-      <option value="Small">Small</option>
-      <option value="Medium">Medium</option>
-      <option value="Large">Large</option>
-      <option value="ExtraLarge">Extra Large</option>
-    </select>
-  </div>
-      </div>
-      <center><a class="waves-effect waves-light btn" id="submit-info">Submit</a></center>
-    </form>
-  </div>
+
 
   <!-- Modal Structure -->
   <div id="markerDataModal" class="modal">
