@@ -10,6 +10,8 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database(); 
 
+
+
 // for materialize dropdowns and modals
 $(document).ready(function() {
 	$('select').material_select();
@@ -17,28 +19,33 @@ $(document).ready(function() {
 });
 
 // variables to store user info from form
+
 var zip = "";
 var dogBreed = "";
 var dogGender = "";
 var dogAge = "";
 var dogSize = "";
 
+
 // on click function for form submit button
 $("#submit-info").on("click", function() {
 	event.preventDefault();
 
 	// set user input to appropriate variables
+
 	zip = $("#zip_code").val().trim();
 	dogBreed = $("#dog_breed").val().trim();
 	dogGender = $("#dog_gender").val();
 	dogAge = $("#dog_age").val();
-	dogSize = $("#dog_size").val();
+  dogSize = $("#dog_size").val();
 
 
 	console.log("dogBreed: "+dogBreed);
 	console.log("dogGender: "+dogGender);
 	console.log("dogAge: "+dogAge);
-	console.log("dogSize: "+dogSize);
+  console.log("dogSize: "+dogSize);
+  console.log("zipCode: " +zip);
+
 
 	// empty mainContent div and append a div for the map to it
 	$("#mainContent").empty();
