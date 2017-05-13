@@ -1,10 +1,22 @@
 body{
 	background-image: url(https://cloud.githubusercontent.com/assets/26077051/25926005/4f49a322-35ba-11e7-9495-048242b3e86b.jpg);
 }
+.header .title{
+	text-align: center; 
+	background-color: #26a69a; 
+	font-size: 80px;
+	margin-bottom: 50px;
+	padding-bottom: 10px;
+	font-family: 'News Cycle', sans-serif;
+	font-weight: bold;
+	color: white;
+}
 #mainContent{
 	background-color: white; 
 	width: 60%;
-	margin-top: 
+	border-color: #26a69a;
+	border-width: 1px;
+	border-style: solid;
 }
 #map{
 	margin: 10px;
