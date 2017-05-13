@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Woofer</title>
+
+	<!--Reset css link-->
+	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+	<!-- Google Font link-->
+	<link href="https://fonts.googleapis.com/css?family=News+Cycle" rel="stylesheet">
+  <script src="https://use.fontawesome.com/9639f71805.js"></script>
+	<!--Materialize Link-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	
+</head>
+<body>
+
+<!--Header-->
+<div class="header topnav">
+	<!--Logo-->
+	<div class="title">WOOFER</div>
+	<br><br>
+		<!--Links in Header-->
+		<a href="index.html"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a>
+
+</div>
+<div class="row" id="mainContent">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="dog_breed" type="text" class="validate">
+          <label for="dog_breed">Dog Breed</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="zip_code" type="text" class="validate" required="">
+          <label for="zip_code">Zip Code</label>
+        </div>
+      </div>
+<div class="row">
+     <div class="input-field col s12">
+    <select id="dog_gender">
+      <option value="" disabled selected>Dogs Gender</option>
+
+      <option value="M">Male</option>
+      <option value="F">Female</option>
+
+    </select>
+  </div>
+</div>
+<div class="row">
+     <div class="input-field col s12">
+    <select id="dog_age">
+      <option value="" disabled selected>Dogs Age</option>
+      <option value="Baby">Baby</option>
+      <option value="Puppy">Puppy</option>
+      <option value="Adult">Adult</option>
+      <option value="Senior">Senior</option>
+    </select>
+  </div>
+  <div class="row">
+     <div class="input-field col s12">
+    <select id="dog_size">
+      <option value="" disabled selected>Dogs Size</option>
+
+      <option value="S">Small</option>
+      <option value="M">Medium</option>
+      <option value="L">Large</option>
+      <option value="XL">Extra Large</option>
+
+    </select>
+  </div>
+      </div>
+      <center><a class="waves-effect waves-light btn" id="submit-info" href="map.html">Submit</a></center>
+    </form>
+  </div>
+    <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <!-- materialize -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+  <!-- firebase -->
+  <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+  <!-- google API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB04JBtICm3X_pnv53olgskaJ3ttfIRtHw" async defer></script>
+  <!-- custom javascript -->
+  <script type="text/javascript" src="assets/javascript/app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+body{
+	background-image: url(https://cloud.githubusercontent.com/assets/26077051/25926005/4f49a322-35ba-11e7-9495-048242b3e86b.jpg);
+}
+
+.header {
+	margin-bottom: 30px;
+	background-color: #26a69a;
+	background-size: 100%;
+	width: 100%;
+	border-bottom-style: solid;
+	border-color: #26a69a; 
+	border-width: 3px;
+}
+.topnav {
+	background-color: #26a69a;
+	overflow: hidden;
+}
+.topnav a {
+	float: right;
+	display: block;
+	color: #777777;
+	text-align: center;
+	text-decoration: none;
+	font-size: 17px;
+}
+.topnav a:hover {
+	background-color: #ddd;
+	color: black;
+}
+.topnav a:active {
+	background-color: #2F4F4F;
+	color: white;
+}
+.title {
+	float: left;
+	background-color: #26a69a; 
+	text-align: center;
+	font-size: 40px;
+	color: white;
+	margin-top: 20px;
+	padding-left: 20px;
+}
+#mainContent{
+	background-color: white; 
+	width: 60%;
+	border-color: #26a69a;
+	border-width: 1px;
+	border-style: solid;
+}
+#map{
+	margin: 10px;
+	height: 50em;
+}
+#submit-info{
+	margin: 20px;
+}
