@@ -19,29 +19,33 @@ $(document).ready(function() {
 });
 
 // variables to store user info from form
+
+var zip = "";
 var dogBreed = "";
 var dogGender = "";
 var dogAge = "";
 var dogSize = "";
-var zipCode = ""; 
+
 
 // on click function for form submit button
 $("#submit-info").on("click", function() {
 	event.preventDefault();
 
 	// set user input to appropriate variables
+
+	zip = $("#zip_code").val().trim();
 	dogBreed = $("#dog_breed").val().trim();
 	dogGender = $("#dog_gender").val();
 	dogAge = $("#dog_age").val();
   dogSize = $("#dog_size").val();
-  zipCode = $("#zip_code").val().trim(); 
 
 
 	console.log("dogBreed: "+dogBreed);
 	console.log("dogGender: "+dogGender);
 	console.log("dogAge: "+dogAge);
   console.log("dogSize: "+dogSize);
-  console.log("zipCode: " +zipCode);
+  console.log("zipCode: " +zip);
+
 
 	// empty mainContent div and append a div for the map to it
 	$("#mainContent").empty();
@@ -56,6 +60,7 @@ $("#submit-info").on("click", function() {
 var googleMap = {
 	map: {},
 	infoWindow: {},
+	geocoder: null,
 	// display map function
 	initMap: function() {
 		// initial map
@@ -67,7 +72,7 @@ var googleMap = {
 		infoWindow = new google.maps.InfoWindow;
 
 		// Try HTML5 geolocation.
-		if (navigator.geolocation) {
+		/*if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(function(position) {
 				var pos = {
 					lat: position.coords.latitude,
@@ -84,7 +89,10 @@ var googleMap = {
 		} else {
 			// Browser doesn't support Geolocation
 			googleMap.handleLocationError(false, infoWindow, map.getCenter());
-		}
+		}*/
+
+		geocoder = new google.maps.Geocoder();
+		googleMap.codeAddress();
 
 		// add marker at click location
 		google.maps.event.addListener(map, 'click', function(event) {
@@ -148,6 +156,16 @@ var googleMap = {
 							.append(playDateDogAge)
 							.append(playDateDogTemp);
 			$("#markerDataModal").modal("open");
+		});
+	},
+	// function to change zip code to lat lng
+	codeAddress: function() {
+		geocoder.geocode( { 'address': zip}, function(results, status) {
+			if (status == 'OK') {
+				map.setCenter(results[0].geometry.location);
+			} else {
+				alert('Geocode was not successful for the following reason: ' + status);
+			}
 		});
 	},
 }
