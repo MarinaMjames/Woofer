@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 
 	var yourKey = "key=07e7adfc27bd9872413e0961018c8013&";
 	var baseURL = "https://api.petfinder.com/";
@@ -76,7 +76,6 @@
 
 	  });
 
-=======
 // Initialize Firebase
 var config = {
 	apiKey: "AIzaSyCZ5kHNolNVZx831g9c-2ivxTlCYoknJ0s",
@@ -248,4 +247,3 @@ var googleMap = {
 		});
 	},
 }
->>>>>>> 92c92d707378e7227edbb4be66cebd53b4d4aedb
