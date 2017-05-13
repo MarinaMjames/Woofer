@@ -10,6 +10,8 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database(); 
 
+
+
 // for materialize dropdowns and modals
 $(document).ready(function() {
 	$('select').material_select();
@@ -21,6 +23,7 @@ var dogBreed = "";
 var dogGender = "";
 var dogAge = "";
 var dogSize = "";
+var zipCode = ""; 
 
 // on click function for form submit button
 $("#submit-info").on("click", function() {
@@ -31,12 +34,14 @@ $("#submit-info").on("click", function() {
 	dogGender = $("#dog_gender").val();
 	dogAge = $("#dog_age").val();
   dogSize = $("#dog_size").val();
+  zipCode = $("#zip_code").val().trim(); 
 
 
 	console.log("dogBreed: "+dogBreed);
 	console.log("dogGender: "+dogGender);
 	console.log("dogAge: "+dogAge);
   console.log("dogSize: "+dogSize);
+  console.log("zipCode: " +zipCode);
 
 	// empty mainContent div and append a div for the map to it
 	$("#mainContent").empty();
