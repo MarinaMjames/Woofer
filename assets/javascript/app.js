@@ -13,8 +13,7 @@ var database = firebase.database();
 // for materialize dropdowns and modals
 $(document).ready(function() {
 	$('select').material_select();
-	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-	$('.modal').modal();
+  $('.modal').modal();
 });
 
 // variables to store user info from form
