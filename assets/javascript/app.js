@@ -1,6 +1,20 @@
-// for materialize dropdowns
+// Initialize Firebase
+var config = {
+	apiKey: "AIzaSyCZ5kHNolNVZx831g9c-2ivxTlCYoknJ0s",
+	authDomain: "woofer-1494286449804.firebaseapp.com",
+	databaseURL: "https://woofer-1494286449804.firebaseio.com",
+	projectId: "woofer-1494286449804",
+	storageBucket: "woofer-1494286449804.appspot.com",
+	messagingSenderId: "138553844210"
+};
+firebase.initializeApp(config);
+var database = firebase.database(); 
+
+// for materialize dropdowns and modals
 $(document).ready(function() {
 	$('select').material_select();
+	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+	$('.modal').modal();
 });
 
 // variables to store user info from form
@@ -43,11 +57,13 @@ $("#submit-info").on("click", function() {
 var googleMap = {
 	map: {},
 	infoWindow: {},
+	// display map function
 	initMap: function() {
 		// initial map
 		map = new google.maps.Map(document.getElementById('map'), {
 			center: {lat: 40.712, lng: -74.0059},
-			zoom: 15
+			zoom: 15,
+			gestureHandling: 'cooperative',
 		});
 		infoWindow = new google.maps.InfoWindow;
 
@@ -56,7 +72,7 @@ var googleMap = {
 			navigator.geolocation.getCurrentPosition(function(position) {
 				var pos = {
 					lat: position.coords.latitude,
-					lng: position.coords.longitude
+					lng: position.coords.longitude,
 				};
 
 				infoWindow.setPosition(pos);
@@ -64,18 +80,20 @@ var googleMap = {
 				infoWindow.open(map);
 				map.setCenter(pos);
 			}, function() {
-				handleLocationError(true, infoWindow, map.getCenter());
+				googleMap.handleLocationError(true, infoWindow, map.getCenter());
 			});
 		} else {
 			// Browser doesn't support Geolocation
-			handleLocationError(false, infoWindow, map.getCenter());
+			googleMap.handleLocationError(false, infoWindow, map.getCenter());
 		}
 
 		// add marker at click location
 		google.maps.event.addListener(map, 'click', function(event) {
-			placeYourMarker(event.latLng);
 			console.log("event: "+JSON.stringify(event));
+			googleMap.placeYourMarker(event.latLng);
 		});
+
+		googleMap.playDates();
 	},
 	// function to handle errors for geolocation
 	handleLocationError: function(browserHasGeolocation, infoWindow, pos) {
@@ -87,10 +105,50 @@ var googleMap = {
 	},
 	// function to place a marker
 	placeYourMarker: function(location) {
-		console.log("location: "+location);
 		var yourMarker = new google.maps.Marker({
 			position: location,
-			map: map
+			map: map,
+			animation: google.maps.Animation.DROP,
+			icon: "assets/images/marker.png",
+		});
+	},
+	// display markers for play dates
+	playDates: function(location) {
+		database.ref("playDateLocations/playDates").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				var key = childSnapshot.key;
+				var location = childSnapshot.val().location;
+
+				var marker = new google.maps.Marker({
+					position: location,
+					map: map,
+					animation: google.maps.Animation.DROP,
+					icon: "assets/images/dogMarker.png",
+					key: key
+				});
+				marker.addListener('click', function() {
+					googleMap.markerData(marker.key);
+				});				
+			}); // end of childSnapshot
+		}); // end of snapshot
+	},
+	// function to display info about play date
+	markerData: function(key) {
+		database.ref("playDateLocations/playDates/"+key).once("value").then(function(snapshot) {
+			$("#modalContent").empty();
+			var playDateName = $("<h4>").html(snapshot.val().name);
+			var playDateTwitterHandle = $("<p>").html(snapshot.val().twitterHandle);
+			var playDateDogName = $("<h5>").html(snapshot.val().dogName);
+			var playDateDogBreed = $("<p>").html("<strong>Breed:</strong> "+snapshot.val().dogBreed);
+			var playDateDogAge = $("<p>").html("<strong>Age:</strong> "+snapshot.val().dogAge);
+			var playDateDogTemp = $("<p>").html("<strong>Temperament:</strong> "+snapshot.val().dogTemp);
+			$("#modalContent").append(playDateName)
+							.append(playDateTwitterHandle)
+							.append(playDateDogName)
+							.append(playDateDogBreed)
+							.append(playDateDogAge)
+							.append(playDateDogTemp);
+			$("#markerDataModal").modal("open");
 		});
 	},
 }
