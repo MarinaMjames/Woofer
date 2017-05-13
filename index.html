@@ -25,36 +25,16 @@
     <form class="col s12">
       <div class="row">
         <div class="input-field col s12">
-          <input id="full_name" type="text" class="validate">
-          <label for="full_name">Full Name</label>
-        </div>
-        </div>
-        <div class="row">
-        <div class="input-field col s12">
-          <input id="twitter_handle" type="text" class="validate">
-          <label for="twitter_handle">Twitter Handle</label>
-        </div>
-      </div>
-            <div class="row">
-     <div class="input-field col s12">
-          <input id="dog_name" type="text" class="validate">
-          <label for="dog_name">Dogs Name</label>
-        </div>
-      </div>
-      <div class="row">
-     <div class="input-field col s12">
           <input id="dog_breed" type="text" class="validate">
           <label for="dog_breed">Dog Breed</label>
         </div>
       </div>
-      <div class="row">
-<div class="input-field col s12">
-    <select id="dog_temp">
-      <option value="" disabled selected>Dogs Temperament</option>
-      <option value="Calm">Calm</option>
-      <option value="Hyperactive">Hyperactive</option>
-      <option value="Shy">Shy</option>
-      <option value="Playful">Playful</option>
+<div class="row">
+     <div class="input-field col s12">
+    <select id="dog_gender">
+      <option value="" disabled selected>Dogs Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
     </select>
   </div>
 </div>
@@ -62,13 +42,24 @@
      <div class="input-field col s12">
     <select id="dog_age">
       <option value="" disabled selected>Dogs Age</option>
-      <option value="Puppy 0-12 Months">Puppy 0-12 Months</option>
-      <option value="Adult 1-7 Years">Adult 1-7 Years</option>
-      <option value="Senior 7+ Years">Senior 7+ Years</option>
+      <option value="Baby">Baby</option>
+      <option value="Puppy">Puppy</option>
+      <option value="Adult">Adult</option>
+      <option value="Senior">Senior</option>
+    </select>
+  </div>
+  <div class="row">
+     <div class="input-field col s12">
+    <select id="dog_size">
+      <option value="" disabled selected>Dogs Size</option>
+      <option value="Small">Small</option>
+      <option value="Medium">Medium</option>
+      <option value="Large">Large</option>
+      <option value="ExtraLarge">Extra Large</option>
     </select>
   </div>
       </div>
-      <center><a class="waves-effect waves-light btn" id="submit-info">Sign In</a></center>
+      <center><a class="waves-effect waves-light btn" id="submit-info">Submit</a></center>
     </form>
   </div>
 
@@ -81,6 +72,9 @@
     </div>
   </div>
 
+
+
+<div id="listOfDogs"></div>
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <!-- materialize -->
