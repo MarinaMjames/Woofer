@@ -40,12 +40,16 @@ body{
 	margin-top: 20px;
 	padding-left: 20px;
 }
-#mainContent, #dogList{
+#mainContent{
 	background-color: white; 
 	width: 60%;
 	border-color: #26a69a;
 	border-width: 1px;
 	border-style: solid;
+}
+
+#dogList {
+	width: 60%;
 }
 #map{
 	margin: 10px;

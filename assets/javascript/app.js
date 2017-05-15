@@ -18,6 +18,9 @@
 	+searchSex+searchSize+searchAge+yourKey+format;
 	
 
+function expandDog() {
+	
+}
 
 function renderDogs() {	
 	$.ajax({ 
@@ -74,6 +77,8 @@ function renderDogs() {
 			var petImage = $("<img>");
 			petImage.attr("src", foundPet[i].media.photos.photo[7].$t)
 			petImage.attr("id", "pet-image")
+			petImage.addClass("btn")
+			petImage.addClass("dog-number-"+[i])
 			// petDiv.append(p);
 			petDiv.append(petImage);
 				 
