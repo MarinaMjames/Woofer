@@ -40,7 +40,7 @@ body{
 	margin-top: 20px;
 	padding-left: 20px;
 }
-#mainContent{
+#mainContent, #dogList{
 	background-color: white; 
 	width: 60%;
 	border-color: #26a69a;
@@ -53,4 +53,9 @@ body{
 }
 #submit-info{
 	margin: 20px;
+}
+
+#pet-image {
+	width: 150px;
+	height: 100px;
 }

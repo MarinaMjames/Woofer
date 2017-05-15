@@ -13,7 +13,7 @@
 
 	var dogsReturned = []
 	
-	// https://api.petfinder.com/pet.find?animal-dog&count=15&key=07e7adfc27bd9872413e0961018c8013&format=json
+	// 
 	var fullURL = baseURL+reqType+dogSearch+searchCount+searchLocation
 	+searchSex+searchSize+searchAge+yourKey+format;
 	
@@ -25,20 +25,18 @@ function renderDogs() {
 	  url: fullURL + '&callback=?', 
 	  dataType: 'json', 
 	  success: function(data) { 
-	    // console.log(data);
-	    // var x = JSON.stringify(data) 
-	    // $("#listOfDogs").html(x); 
 	    
-	    $("#listOfDogs").empty()
-	    // object for the first returned pet stored
-	    // in a variable
+	    
+	    $("#listOfDogs").empty();
+	    
 		var foundPet = data.petfinder.pets.pet
 			// data.petfinder.pets.pet[0]
 			for (var i = 0; i < foundPet.length; i++){
 				var petContact = foundPet[i].contact
 			// stores phone number to contact 
 			// shelter for pet in variable
-				
+			var petDiv = $("<div>").attr("id", "petDiv");
+
 			var petPhone = petContact.phone.$t
 				
 			// stores email to contact
@@ -66,18 +64,21 @@ function renderDogs() {
 			// stores gender of pet in a variable
 			var petSex = foundPet[i].sex.$t
 				
-			var petDiv = $("<div class='petDiv'>");	
+			
 			// stores image of pet in a variable
-			var petImage = $("<img>")
+			var p = $("<p>").text("Name: " + petName);
+			var petImage = $("<img>");
 			petImage.attr("src", foundPet[i].media.photos.photo[7].$t)
+			petImage.attr("id", "pet-image")
+			petDiv.append(p);
 			petDiv.append(petImage);
-				 console.log(petImage)
+				 console.log(petImage);
+				 console.log(petName);
+			 $("#dogList").append(petDiv);
 			// stores Shelter ID for pet in a variable 
 			var petShelterID = foundPet[i].shelterId.$t
 				
-				}	
-			// stores contact object in a varible for easier
-			// access
+			}			
 		
 		
 		}
