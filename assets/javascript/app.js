@@ -35,6 +35,10 @@ function renderDogs() {
 				var petContact = foundPet[i].contact
 			// stores phone number to contact 
 			// shelter for pet in variable
+			
+			dogsReturned.push(foundPet)
+			console.log(dogsReturned)
+
 			var petDiv = $("<div>").attr("id", "petDiv");
 
 			var petPhone = petContact.phone.$t
@@ -70,15 +74,18 @@ function renderDogs() {
 			var petImage = $("<img>");
 			petImage.attr("src", foundPet[i].media.photos.photo[7].$t)
 			petImage.attr("id", "pet-image")
-			petDiv.append(p);
+			// petDiv.append(p);
 			petDiv.append(petImage);
-				 console.log(petImage);
+				 
 				 console.log(petName);
+			petDiv.addClass("col lg3")
 			 $("#dogList").append(petDiv);
 			// stores Shelter ID for pet in a variable 
 			var petShelterID = foundPet[i].shelterId.$t
-				
-			}			
+			
+			
+			}	
+
 		
 		
 		}

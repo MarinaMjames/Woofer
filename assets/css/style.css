@@ -55,7 +55,10 @@ body{
 	margin: 20px;
 }
 
+
 #pet-image {
+	border-radius: 25px;
 	width: 150px;
 	height: 100px;
+	padding: 5px;
 }
