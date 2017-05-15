@@ -88,6 +88,9 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database(); 
 
+// database.set().push(){
+//   "": ,
+// }
 
 
 // for materialize dropdowns and modals
@@ -194,7 +197,7 @@ var googleMap = {
 			position: location,
 			map: map,
 			animation: google.maps.Animation.DROP,
-			icon: "assets/images/marker.png",
+			icon: "assets/images/1494713807_dog.png",
 		});
 	},
 	// display markers for play dates
