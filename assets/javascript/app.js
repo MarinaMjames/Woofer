@@ -11,6 +11,9 @@
 	var searchAge = "age=Young&"
 	var format = "format=json";
 
+	var petCity = "";
+	var petZip = "";
+
 
 	
 	// https://api.petfinder.com/pet.find?animal-dog&count=15&key=07e7adfc27bd9872413e0961018c8013&format=json
@@ -43,11 +46,11 @@
 		var petEmail = petContact.email.$t
 			console.log("PET EMAIL: " + petEmail) 
 		// stores city pet is located in a variable
-		var petCity = petContact.city.$t
+		petCity = petContact.city.$t
 			console.log("PET CITY: " + petCity)
 		// stores zip code of pet's city 
 		// in a varible
-		var petZip = petContact.zip.$t
+		petZip = petContact.zip.$t
 			console.log("PET ZIP: " + petZip)
 			
 		// stores age of pet in a variable
@@ -115,14 +118,14 @@ $("#submit-info").on("click", function() {
 	dogBreed = $("#dog_breed").val().trim();
 	dogGender = $("#dog_gender").val();
 	dogAge = $("#dog_age").val();
-  dogSize = $("#dog_size").val();
+	dogSize = $("#dog_size").val();
 
 
 	console.log("dogBreed: "+dogBreed);
 	console.log("dogGender: "+dogGender);
 	console.log("dogAge: "+dogAge);
-  console.log("dogSize: "+dogSize);
-  console.log("zipCode: " +zip);
+	console.log("dogSize: "+dogSize);
+	console.log("zipCode: " +zip);
 
 
 	// empty mainContent div and append a div for the map to it
@@ -147,10 +150,11 @@ var googleMap = {
 			zoom: 15,
 			gestureHandling: 'cooperative',
 		});
+/*
 		infoWindow = new google.maps.InfoWindow;
 
 		// Try HTML5 geolocation.
-		/*if (navigator.geolocation) {
+		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(function(position) {
 				var pos = {
 					lat: position.coords.latitude,
@@ -167,11 +171,11 @@ var googleMap = {
 		} else {
 			// Browser doesn't support Geolocation
 			googleMap.handleLocationError(false, infoWindow, map.getCenter());
-		}*/
-
+		}
+*/
 		geocoder = new google.maps.Geocoder();
 		googleMap.codeAddress();
-
+/*
 		// add marker at click location
 		google.maps.event.addListener(map, 'click', function(event) {
 			console.log("event: "+JSON.stringify(event));
@@ -179,6 +183,8 @@ var googleMap = {
 		});
 
 		googleMap.playDates();
+*/
+		googleMap.geoMarker();
 	},
 	// function to handle errors for geolocation
 	handleLocationError: function(browserHasGeolocation, infoWindow, pos) {
@@ -241,6 +247,15 @@ var googleMap = {
 		geocoder.geocode( { 'address': zip}, function(results, status) {
 			if (status == 'OK') {
 				map.setCenter(results[0].geometry.location);
+			} else {
+				alert('Geocode was not successful for the following reason: ' + status);
+			}
+		});
+	},
+	geoMarker: function() {
+		geocoder.geocode( { 'address': petCity+" "+petZip}, function(results, status) {
+			if (status == 'OK') {
+				googleMap.placeYourMarker(results[0].geometry.location);
 			} else {
 				alert('Geocode was not successful for the following reason: ' + status);
 			}
