@@ -1,28 +1,40 @@
-
-
 	var yourKey = "key=07e7adfc27bd9872413e0961018c8013&";
 	var baseURL = "https://api.petfinder.com/";
 	var reqType = "pet.find?";
 	var dogSearch = "animal=dog&";
-	var searchCount = "count=15&";
-	var searchLocation = "location=08801&";
-	var searchSex = "sex=F&"
+	var searchCount = "count=16&";
+	var searchLocation = ""
+	var searchSex = ""
 	var searchSize = "size=M&"
 	var searchAge = "age=Young&"
 	var format = "format=json";
 
+	
+
 	var dogsReturned = []
 	
 	// 
+	
+	
+
+
+
+function renderDogs() {
+	
+	var userSex = $("#dog_gender").val();
+	var searchSex = "sex="+ userSex + "&";
+
+	var userSize = $("#dog_size").val()
+	var searchSize = "size="+ userSize +"&";
+
+	var userAge = $("#dog_age").val()
+	var searchAge = "age=" + userAge  + "&"
+
+	var userZip = $("#zip_code").val();
+	var searchLocation = "location=" + userZip  + "&";
+
 	var fullURL = baseURL+reqType+dogSearch+searchCount+searchLocation
 	+searchSex+searchSize+searchAge+yourKey+format;
-	
-
-function expandDog() {
-	
-}
-
-function renderDogs() {	
 	$.ajax({ 
 	  method: 'GET', 
 	  url: fullURL + '&callback=?', 
@@ -77,8 +89,10 @@ function renderDogs() {
 			var petImage = $("<img>");
 			petImage.attr("src", foundPet[i].media.photos.photo[7].$t)
 			petImage.attr("id", "pet-image")
+			petImage.attr("alt", petName)
 			petImage.addClass("btn")
-			petImage.addClass("dog-number-"+[i])
+			petImage.addClass("btn-dog")
+			petImage.addClass("dog-"+[i])
 			// petDiv.append(p);
 			petDiv.append(petImage);
 				 
@@ -131,8 +145,7 @@ $("#submit-info").on("click", function() {
 	event.preventDefault();
 
 	// set user input to appropriate variables
-
-	// zip = $("#zip_code").val().trim();
+	
 	// dogBreed = $("#dog_breed").val().trim();
 	// dogGender = $("#dog_gender").val();
 	// dogAge = $("#dog_age").val();
@@ -145,7 +158,7 @@ $("#submit-info").on("click", function() {
  //  console.log("dogSize: "+dogSize);
  //  console.log("zipCode: " +zip);
 
-
+ 	renderDogs();
 	// empty mainContent div and append a div for the map to it
 	$("#mainContent").empty();
 	var mapDiv = $("<div>").attr("id", "map");
@@ -153,7 +166,7 @@ $("#submit-info").on("click", function() {
 
 	// run function to display map
 	googleMap.initMap();
-	renderDogs();
+	
 });
 
 // object to handle Google Maps API

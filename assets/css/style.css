@@ -62,7 +62,11 @@ body{
 
 #pet-image {
 	border-radius: 25px;
-	width: 150px;
-	height: 100px;
+	width: 200px;
+	height: 150px;
 	padding: 5px;
+}
+
+#btn-dog {
+	margin: 25px;
 }
