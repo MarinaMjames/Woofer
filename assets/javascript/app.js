@@ -13,6 +13,7 @@ var format = "format=json";
 var dogsReturned;
 var shelterIDs = [];
 var sheltersReturned = [];
+var shelterDogs = [];
 var petCity = "";
 var petZip = "";
 
@@ -72,6 +73,7 @@ function renderDogs() {
 					shelterIDs.push(petShelterID);
 				}
 			}
+			// get shelter info based off shelter id
 			var count = 0;
 			for (var i = 0; i < shelterIDs.length; i++) {
 			var shelterURL = baseURL+"shelter.get?"+yourKey+"id="+shelterIDs[i]+"&"+format;
@@ -84,6 +86,7 @@ function renderDogs() {
 				}
 			}).done(function() {
 				count++;
+				// display markers after ajax is done
 				if (count == shelterIDs.length) {
 					for (var i = 0; i < sheltersReturned.length; i++) {
 						var location = {lat: Number(sheltersReturned[i].latitude.$t),
@@ -95,8 +98,6 @@ function renderDogs() {
 				}
 			});
 			}
-			console.log(dogsReturned);
-			
 		}
 	});
 }
@@ -164,69 +165,20 @@ $("#submit-info").on("click", function() {
 
 // object to handle Google Maps API
 var googleMap = {
-	map: {},
-	infoWindow: {},
-	geocoder: null,
+	infowindow: null,
 	// display map function
 	initMap: function() {
 		// initial map
 		map = new google.maps.Map(document.getElementById('map'), {
 			center: {lat: 40.712, lng: -74.0059},
-			zoom: 15,
+			zoom: 10,
 			gestureHandling: 'cooperative',
 		});
-/*
-		infoWindow = new google.maps.InfoWindow;
 
-		// Try HTML5 geolocation.
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(function(position) {
-				var pos = {
-					lat: position.coords.latitude,
-					lng: position.coords.longitude,
-				};
+		googleMap.infowindow = new google.maps.InfoWindow();
 
-				infoWindow.setPosition(pos);
-				infoWindow.setContent('You Are Here');
-				infoWindow.open(map);
-				map.setCenter(pos);
-			}, function() {
-				googleMap.handleLocationError(true, infoWindow, map.getCenter());
-			});
-		} else {
-			// Browser doesn't support Geolocation
-			googleMap.handleLocationError(false, infoWindow, map.getCenter());
-		}
-*/
 		geocoder = new google.maps.Geocoder();
 		googleMap.codeAddress();
-/*
-		// add marker at click location
-		google.maps.event.addListener(map, 'click', function(event) {
-			console.log("event: "+JSON.stringify(event));
-			googleMap.placeYourMarker(event.latLng);
-		});
-
-		googleMap.playDates();
-*/
-		//googleMap.setMarker();
-	},
-	// function to handle errors for geolocation
-	handleLocationError: function(browserHasGeolocation, infoWindow, pos) {
-		infoWindow.setPosition(pos);
-		infoWindow.setContent(browserHasGeolocation ?
-			'Error: The Geolocation service failed.' :
-			'Error: Your browser doesn\'t support geolocation.');
-		infoWindow.open(map);
-	},
-	// function to place a marker
-	placeYourMarker: function(location) {
-		var yourMarker = new google.maps.Marker({
-			position: location,
-			map: map,
-			animation: google.maps.Animation.DROP,
-			icon: "assets/images/marker.png",
-		});
 	},
 	// display markers for play dates
 	setMarker: function(location, title, id) {
@@ -240,33 +192,16 @@ var googleMap = {
 			id: id,
 		});
 		marker.addListener('click', function() {
-			console.log(marker.id);
-			var shelterDogs = [];
+			var infowindowContent = marker.id;
+			googleMap.infowindow.setContent(infowindowContent);
+			googleMap.infowindow.setPosition(marker.position);
+			googleMap.infowindow.open(map, marker);
+			shelterDogs = [];
 			for (var i = 0; i < dogsReturned.length; i++) {
 				if (marker.id == dogsReturned[i].shelterId.$t) {
 					shelterDogs.push(dogsReturned[i]);
 				}
 			}
-			console.log(shelterDogs);
-		});
-	},
-	// function to display info about play date
-	markerData: function(key) {
-		database.ref("playDateLocations/playDates/"+key).once("value").then(function(snapshot) {
-			$("#modalContent").empty();
-			var playDateName = $("<h4>").html(snapshot.val().name);
-			var playDateTwitterHandle = $("<p>").html(snapshot.val().twitterHandle);
-			var playDateDogName = $("<h5>").html(snapshot.val().dogName);
-			var playDateDogBreed = $("<p>").html("<strong>Breed:</strong> "+snapshot.val().dogBreed);
-			var playDateDogAge = $("<p>").html("<strong>Age:</strong> "+snapshot.val().dogAge);
-			var playDateDogTemp = $("<p>").html("<strong>Temperament:</strong> "+snapshot.val().dogTemp);
-			$("#modalContent").append(playDateName)
-							.append(playDateTwitterHandle)
-							.append(playDateDogName)
-							.append(playDateDogBreed)
-							.append(playDateDogAge)
-							.append(playDateDogTemp);
-			$("#markerDataModal").modal("open");
 		});
 	},
 	// function to change zip code to lat lng
@@ -274,15 +209,6 @@ var googleMap = {
 		geocoder.geocode( { 'address': zip}, function(results, status) {
 			if (status == 'OK') {
 				map.setCenter(results[0].geometry.location);
-			} else {
-				alert('Geocode was not successful for the following reason: ' + status);
-			}
-		});
-	},
-	geoMarker: function() {
-			geocoder.geocode( { 'address': petCity+" "+petZip}, function(results, status) {
-			if (status == 'OK') {
-				googleMap.placeYourMarker(results[0].geometry.location);
 			} else {
 				alert('Geocode was not successful for the following reason: ' + status);
 			}
