@@ -1,93 +1,104 @@
+var yourKey = "key=07e7adfc27bd9872413e0961018c8013&";
+var baseURL = "https://api.petfinder.com/";
+var reqType = "pet.find?";
+var dogSearch = "animal=dog&";
+var searchCount = "count=15&";
+var searchLocation = "location=08801&";
+var searchSex = "sex=F&"
+var searchSize = "size=M&"
+var searchAge = "age=Young&"
+var format = "format=json";
 
 
-	var yourKey = "key=07e7adfc27bd9872413e0961018c8013&";
-	var baseURL = "https://api.petfinder.com/";
-	var reqType = "pet.find?";
-	var dogSearch = "animal=dog&";
-	var searchCount = "count=15&";
-	var searchLocation = "location=08801&";
-	var searchSex = "sex=F&"
-	var searchSize = "size=M&"
-	var searchAge = "age=Young&"
-	var format = "format=json";
+var dogsReturned;
+var shelterIDs = [];
+var sheltersReturned = [];
+var petCity = "";
+var petZip = "";
 
-
-	var dogsReturned = []
-	var petCity = "";
-	var petZip = "";
+// 
+var fullURL = baseURL+reqType+dogSearch+searchCount+searchLocation
++searchSex+searchSize+searchAge+yourKey+format;
 	
-	// 
-	var fullURL = baseURL+reqType+dogSearch+searchCount+searchLocation
-	+searchSex+searchSize+searchAge+yourKey+format;
-	
 
 
-function renderDogs() {	
+function renderDogs() {
 	$.ajax({ 
-	  method: 'GET', 
-	  url: fullURL + '&callback=?', 
-	  dataType: 'json', 
-	  success: function(data) { 
-	    
-
-	    
-	    $("#listOfDogs").empty();
-	    
-		var foundPet = data.petfinder.pets.pet
+		method: 'GET', 
+		url: fullURL + '&callback=?', 
+		dataType: 'json', 
+		success: function(data) { 
+			$("#listOfDogs").empty();
+			var foundPet = data.petfinder.pets.pet
+			dogsReturned = foundPet;
 			// data.petfinder.pets.pet[0]
 			for (var i = 0; i < foundPet.length; i++){
 				var petContact = foundPet[i].contact
-			// stores phone number to contact 
-			// shelter for pet in variable
-			var petDiv = $("<div>").attr("id", "petDiv");
+				// stores phone number to contact 
+				// shelter for pet in variable
+				var petDiv = $("<div>").attr("id", "petDiv");
+				var petPhone = petContact.phone.$t
+				// stores email to contact
+				// shelter for pet in variable
+				var petEmail = petContact.email.$t
+				// stores city pet is located in a variable
+				var petCity = petContact.city.$t
+				// stores zip code of pet's city 
+				// in a varible
+				var petZip = petContact.zip.$t
+				// stores age of pet in a variable
+				var petAge = foundPet[i].age.$t
+				// stores size of pet in a variable
+				var petSize = foundPet[i].size.$t
+				// stores name of pet in a variable
+				var petName = foundPet[i].name.$t
+				// stores gender of pet in a variable
+				var petSex = foundPet[i].sex.$t
 
-			var petPhone = petContact.phone.$t
-				
-			// stores email to contact
-			// shelter for pet in variable
-			var petEmail = petContact.email.$t
-				
-			// stores city pet is located in a variable
-			var petCity = petContact.city.$t
-				
-			// stores zip code of pet's city 
-			// in a varible
-			var petZip = petContact.zip.$t
-				
-				
-			// stores age of pet in a variable
-				
-			var petAge = foundPet[i].age.$t
-				
-			// stores size of pet in a variable
-			var petSize = foundPet[i].size.$t
-				
-			// stores name of pet in a variable
-			var petName = foundPet[i].name.$t
-				
-			// stores gender of pet in a variable
-			var petSex = foundPet[i].sex.$t
-				
+
+				// stores image of pet in a variable
+				var p = $("<p>").text("Name: " + petName);
+				var petImage = $("<img>");
+				petImage.attr("src", foundPet[i].media.photos.photo[7].$t)
+				petImage.attr("id", "pet-image")
+				petDiv.append(p);
+				petDiv.append(petImage);
+				console.log(petImage);
+				console.log(petName);
+				$("#dogList").append(petDiv);
+				// stores Shelter ID for pet in a variable 
+				var petShelterID = foundPet[i].shelterId.$t
+				if (shelterIDs.indexOf(petShelterID) === -1) {
+					shelterIDs.push(petShelterID);
+				}
+			}
+			var count = 0;
+			for (var i = 0; i < shelterIDs.length; i++) {
+			var shelterURL = baseURL+"shelter.get?"+yourKey+"id="+shelterIDs[i]+"&"+format;
+			$.ajax({ 
+				method: 'GET', 
+				url: shelterURL + '&callback=?', 
+				dataType: 'json', 
+				success: function(data) {
+					sheltersReturned.push(data.petfinder.shelter);
+				}
+			}).done(function() {
+				count++;
+				if (count == shelterIDs.length) {
+					for (var i = 0; i < sheltersReturned.length; i++) {
+						var location = {lat: Number(sheltersReturned[i].latitude.$t),
+										lng: Number(sheltersReturned[i].longitude.$t)};
+						var title = sheltersReturned[i].name.$t;
+						var id = sheltersReturned[i].id.$t;
+						googleMap.setMarker(location, title, id);
+					}
+				}
+			});
+			}
+			console.log(dogsReturned);
 			
-			// stores image of pet in a variable
-			var p = $("<p>").text("Name: " + petName);
-			var petImage = $("<img>");
-			petImage.attr("src", foundPet[i].media.photos.photo[7].$t)
-			petImage.attr("id", "pet-image")
-			petDiv.append(p);
-			petDiv.append(petImage);
-				 console.log(petImage);
-				 console.log(petName);
-			 $("#dogList").append(petDiv);
-			// stores Shelter ID for pet in a variable 
-			var petShelterID = foundPet[i].shelterId.$t
-				
-			}			
-		
-		
 		}
-
-	  });
+	});
 }
 
 // Initialize Firebase
@@ -198,7 +209,7 @@ var googleMap = {
 
 		googleMap.playDates();
 */
-		googleMap.geoMarker();
+		//googleMap.setMarker();
 	},
 	// function to handle errors for geolocation
 	handleLocationError: function(browserHasGeolocation, infoWindow, pos) {
@@ -218,24 +229,26 @@ var googleMap = {
 		});
 	},
 	// display markers for play dates
-	playDates: function(location) {
-		database.ref("playDateLocations/playDates").once("value").then(function(snapshot) {
-			snapshot.forEach(function(childSnapshot) {
-				var key = childSnapshot.key;
-				var location = childSnapshot.val().location;
-
-				var marker = new google.maps.Marker({
-					position: location,
-					map: map,
-					animation: google.maps.Animation.DROP,
-					icon: "assets/images/dogMarker.png",
-					key: key
-				});
-				marker.addListener('click', function() {
-					googleMap.markerData(marker.key);
-				});				
-			}); // end of childSnapshot
-		}); // end of snapshot
+	setMarker: function(location, title, id) {
+		console.log("setMarker ran");
+		var marker = new google.maps.Marker({
+			position: location,
+			map: map,
+			animation: google.maps.Animation.DROP,
+			icon: "assets/images/marker.png",
+			title: title,
+			id: id,
+		});
+		marker.addListener('click', function() {
+			console.log(marker.id);
+			var shelterDogs = [];
+			for (var i = 0; i < dogsReturned.length; i++) {
+				if (marker.id == dogsReturned[i].shelterId.$t) {
+					shelterDogs.push(dogsReturned[i]);
+				}
+			}
+			console.log(shelterDogs);
+		});
 	},
 	// function to display info about play date
 	markerData: function(key) {
@@ -267,7 +280,7 @@ var googleMap = {
 		});
 	},
 	geoMarker: function() {
-		geocoder.geocode( { 'address': petCity+" "+petZip}, function(results, status) {
+			geocoder.geocode( { 'address': petCity+" "+petZip}, function(results, status) {
 			if (status == 'OK') {
 				googleMap.placeYourMarker(results[0].geometry.location);
 			} else {
