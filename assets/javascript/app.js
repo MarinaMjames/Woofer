@@ -1,25 +1,39 @@
+$(document).ready(function() {
+	$('select').material_select();
+  $('.modal').modal();
+});
+	
+
 	var yourKey = "key=07e7adfc27bd9872413e0961018c8013&";
 	var baseURL = "https://api.petfinder.com/";
 	var reqType = "pet.find?";
 	var dogSearch = "animal=dog&";
-	var searchCount = "count=16&";
-	var searchLocation = ""
-	var searchSex = ""
-	var searchSize = "size=M&"
-	var searchAge = "age=Young&"
+	var searchCount = "";
+	var searchLocation = "";
+	var searchSex = "";
+	var searchSize = "size=M&";
+	var searchAge = "age=Young&";
 	var format = "format=json";
 
-	
+	var dogName = ""
+
+	var dogAge = ""
+	var dogGender = ""
+	var dogSize = ""
+	var dogPhone = ""
+ 	var dogEmail = ""
 
 	var dogsReturned = []
 	
 	// 
-	
-	
+
 
 
 
 function renderDogs() {
+
+	var userCount = $("#search_limit").val();
+	var searchCount = "count=" + userCount + "&";
 	
 	var userSex = $("#dog_gender").val();
 	var searchSex = "sex="+ userSex + "&";
@@ -41,7 +55,7 @@ function renderDogs() {
 	  dataType: 'json', 
 	  success: function(data) { 
 	    
-	    
+	    console.log(data)
 	    $("#listOfDogs").empty();
 	    
 		var foundPet = data.petfinder.pets.pet
@@ -52,11 +66,20 @@ function renderDogs() {
 			// shelter for pet in variable
 			
 			dogsReturned.push(foundPet)
-			console.log(dogsReturned)
+			
+			var petContact = foundPet[i].contact
 
 			var petDiv = $("<div>").attr("id", "petDiv");
+			
+			if (petContact.phone.hasOwnProperty("$t") ) {
+				var petPhone = petContact.phone.$t
+				
+			} else {
+				var petPhone = "No Phone Number Listed"
+			}
+			
 
-			var petPhone = petContact.phone.$t
+			
 				
 			// stores email to contact
 			// shelter for pet in variable
@@ -82,35 +105,100 @@ function renderDogs() {
 				
 			// stores gender of pet in a variable
 			var petSex = foundPet[i].sex.$t
-				
+			var foundPetMedia = foundPet[i].media
 			
-			// stores image of pet in a variable
-			var p = $("<p>").text("Name: " + petName);
+			
+			var i = [i]
+			
+			
+			if (foundPetMedia.hasOwnProperty("photos") ) {
+				
+				var foundPetImage = foundPetMedia.photos.photo[2].$t
+			} else {
+				var foundPetImage = "assets/images/No-image-found.jpg"
+			}
+			
+			
+			
+			var petButton = $("<a>").text(petName);
+
 			var petImage = $("<img>");
-			petImage.attr("src", foundPet[i].media.photos.photo[7].$t)
+			
+
+			petImage.attr("src", foundPetImage)
+			
+
+
 			petImage.attr("id", "pet-image")
 			petImage.attr("alt", petName)
+			petButton.addClass("waves-effect waves-light btn")
+			petButton.attr("id", "pet-info")
+			petButton.attr("href", "#modal"+ i)
+			petImage.attr("href", "#modal"+ i)
 			petImage.addClass("btn")
-			petImage.addClass("btn-dog")
-			petImage.addClass("dog-"+[i])
+			
+			
 			// petDiv.append(p);
 			petDiv.append(petImage);
+			petDiv.append(petButton);
 				 
-				 console.log(petName);
+				 
 			petDiv.addClass("col lg3")
 			 $("#dogList").append(petDiv);
+			
+			var modalDiv = $("<div>").attr("id", "modal"+i)
+		
+			modalDiv.addClass("modal")
+			
+			
+			var modalContent = $("<div>").attr("id", "modalContent"+i)
+			
+			modalContent.addClass("modal-content")
+			// modalContent.attr("id", "dog-"+i)
+
+			var modalFooter = $("<div>")
+			modalFooter.addClass("modal-footer")
+			var modalA = $("<a>").text("Close")
+			modalA.addClass("modal-action modal-close waves-effect waves-green btn-flat")
+			modalFooter.append(modalA)
+			modalDiv.append(modalContent)
+			modalDiv.append(modalFooter)
+			$("#modalContainer").append(modalDiv)
+			
+			var dogHeader = $("<h4>").html(petName);
+			var dogAgeP = $("<p>").html("<strong>Age:</strong> "+ petAge);
+			var dogGenderP = $("<p>").html("<strong>Gender:</strong> "+ petSex );
+			var dogSizeP = $("<p>").html("<strong>Size:</strong> "+ petSize);
+			var contactDog = $("<h5>").html("Contact Info");
+			var dogPhoneP = $("<p>").html("<strong>Phone Number:</strong> "+ petPhone);
+			var dogEmailP = $("<p>").html("<strong>Email:</strong> "+ petEmail);
+			$("#modalContent"+i).append(dogHeader)
+							.append(dogAgeP)
+							.append(dogGenderP)
+							.append(dogSizeP)
+							.append(contactDog)
+							.append(dogPhoneP)
+							.append(dogEmailP)
+
+
 			// stores Shelter ID for pet in a variable 
 			var petShelterID = foundPet[i].shelterId.$t
+
+			
 			
 			
 			}	
-
 		
 		
+		$('select').material_select();
+  		$('.modal').modal();
 		}
 
 	  });
+
 }
+
+
 // Initialize Firebase
 var config = {
 	apiKey: "AIzaSyCZ5kHNolNVZx831g9c-2ivxTlCYoknJ0s",
@@ -126,10 +214,6 @@ var database = firebase.database();
 
 
 // for materialize dropdowns and modals
-$(document).ready(function() {
-	$('select').material_select();
-  $('.modal').modal();
-});
 
 // variables to store user info from form
 
@@ -253,24 +337,24 @@ var googleMap = {
 		}); // end of snapshot
 	},
 	// function to display info about play date
-	markerData: function(key) {
-		database.ref("playDateLocations/playDates/"+key).once("value").then(function(snapshot) {
-			$("#modalContent").empty();
-			var playDateName = $("<h4>").html(snapshot.val().name);
-			var playDateTwitterHandle = $("<p>").html(snapshot.val().twitterHandle);
-			var playDateDogName = $("<h5>").html(snapshot.val().dogName);
-			var playDateDogBreed = $("<p>").html("<strong>Breed:</strong> "+snapshot.val().dogBreed);
-			var playDateDogAge = $("<p>").html("<strong>Age:</strong> "+snapshot.val().dogAge);
-			var playDateDogTemp = $("<p>").html("<strong>Temperament:</strong> "+snapshot.val().dogTemp);
-			$("#modalContent").append(playDateName)
-							.append(playDateTwitterHandle)
-							.append(playDateDogName)
-							.append(playDateDogBreed)
-							.append(playDateDogAge)
-							.append(playDateDogTemp);
-			$("#markerDataModal").modal("open");
-		});
-	},
+	// markerData: function(key) {
+	// 	database.ref("playDateLocations/playDates/"+key).once("value").then(function(snapshot) {
+	// 		$("#modalContent").empty();
+	// 		var playDateName = $("<h4>").html(snapshot.val().name);
+	// 		var playDateTwitterHandle = $("<p>").html(snapshot.val().twitterHandle);
+	// 		var playDateDogName = $("<h5>").html(snapshot.val().dogName);
+	// 		var playDateDogBreed = $("<p>").html("<strong>Breed:</strong> "+snapshot.val().dogBreed);
+	// 		var playDateDogAge = $("<p>").html("<strong>Age:</strong> "+snapshot.val().dogAge);
+	// 		var playDateDogTemp = $("<p>").html("<strong>Temperament:</strong> "+snapshot.val().dogTemp);
+	// 		$("#modalContent").append(playDateName)
+	// 						.append(playDateTwitterHandle)
+	// 						.append(playDateDogName)
+	// 						.append(playDateDogBreed)
+	// 						.append(playDateDogAge)
+	// 						.append(playDateDogTemp);
+	// 		$("#markerDataModal").modal("open");
+	// 	});
+	// },
 	// function to change zip code to lat lng
 	codeAddress: function() {
 		geocoder.geocode( { 'address': zip}, function(results, status) {
@@ -282,3 +366,4 @@ var googleMap = {
 		});
 	},
 }
+
