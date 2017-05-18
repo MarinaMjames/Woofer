@@ -108,6 +108,19 @@ function renderDogs() {
 				
 			// stores name of pet in a variable
 			var petName = foundPet[i].name.$t
+			
+			var foundBreeds = foundPet[i].breeds.breed
+			var petBreeds = ""
+			
+			if (foundBreeds instanceof Array) {
+				var petBreeds = foundBreeds[0].$t
+				console.log(petBreeds)
+			} else {
+				var petBreeds = foundBreeds.$t
+			}
+			
+			
+
 				
 			// stores gender of pet in a variable
 			var petSex = foundPet[i].sex.$t
@@ -172,6 +185,7 @@ function renderDogs() {
 			$("#modalContainer").append(modalDiv)
 			
 			var dogHeader = $("<h4>").html(petName);
+			var dogBreedP = $("<p>").html("<strong>Breed:</strong> "+ petBreeds);
 			var dogAgeP = $("<p>").html("<strong>Age:</strong> "+ petAge);
 			var dogGenderP = $("<p>").html("<strong>Gender:</strong> "+ petSex );
 			var dogSizeP = $("<p>").html("<strong>Size:</strong> "+ petSize);
@@ -180,6 +194,7 @@ function renderDogs() {
 			var dogEmailP = $("<p>").html("<strong>Email:</strong> "+ petEmail);
 			$("#modalContent"+i).append(dogHeader)
 							.append(dogAgeP)
+							.append(dogBreedP)
 							.append(dogGenderP)
 							.append(dogSizeP)
 							.append(contactDog)
