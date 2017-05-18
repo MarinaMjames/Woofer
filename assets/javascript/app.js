@@ -23,8 +23,10 @@ $(document).ready(function() {
 	var dogPhone = ""
  	var dogEmail = ""
 
-	var dogsReturned = []
-	
+	var dogsReturned;
+	var shelterIDs = [];
+	var sheltersReturned = [];
+	var shelterDogs = [];
 	// 
 
 
@@ -61,13 +63,14 @@ function renderDogs() {
 	    $("#listOfDogs").empty();
 	    
 		var foundPet = data.petfinder.pets.pet
+
+		dogsReturned = foundPet;
 			// data.petfinder.pets.pet[0]
 			for (var i = 0; i < foundPet.length; i++){
 				var petContact = foundPet[i].contact
 			// stores phone number to contact 
 			// shelter for pet in variable
 			
-			dogsReturned.push(foundPet)
 			
 			var petContact = foundPet[i].contact
 
@@ -185,7 +188,9 @@ function renderDogs() {
 
 			// stores Shelter ID for pet in a variable 
 			var petShelterID = foundPet[i].shelterId.$t
-
+			if (shelterIDs.indexOf(petShelterID) === -1) {
+				shelterIDs.push(petShelterID);
+			}
 			
 			
 			
@@ -194,7 +199,33 @@ function renderDogs() {
 		
 		$('select').material_select();
   		$('.modal').modal();
+  		// get shelter info based off shelter id
+			var count = 0;
+			for (var i = 0; i < shelterIDs.length; i++) {
+			var shelterURL = baseURL+"shelter.get?"+yourKey+"id="+shelterIDs[i]+"&"+format;
+			$.ajax({ 
+				method: 'GET', 
+				url: shelterURL + '&callback=?', 
+				dataType: 'json', 
+				success: function(data) {
+					sheltersReturned.push(data.petfinder.shelter);
+				}
+			}).done(function() {
+				count++;
+				// display markers after ajax is done
+				if (count == shelterIDs.length) {
+					for (var i = 0; i < sheltersReturned.length; i++) {
+						var location = {lat: Number(sheltersReturned[i].latitude.$t),
+										lng: Number(sheltersReturned[i].longitude.$t)};
+						var title = sheltersReturned[i].name.$t;
+						var id = sheltersReturned[i].id.$t;
+						googleMap.setMarker(location, title, id);
+					}
+				}
+			});
+			}
 		}
+
 
 	  });
 
@@ -236,13 +267,6 @@ $("#submit-info").on("click", function() {
 
 	zip = $("#zip_code").val().trim();
 
-
-
-	console.log("dogBreed: "+dogBreed);
-	console.log("dogGender: "+dogGender);
-	console.log("dogAge: "+dogAge);
-	console.log("dogSize: "+dogSize);
-	console.log("zipCode: " +zip);
 
 
  	renderDogs();
