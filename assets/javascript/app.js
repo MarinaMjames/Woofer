@@ -27,6 +27,7 @@ $(document).ready(function() {
 	var shelterIDs = [];
 	var sheltersReturned = [];
 	var shelterDogs = [];
+	var clickedShelter;
 	// 
 
 
@@ -230,6 +231,96 @@ function renderDogs() {
 	  });
 
 }
+function shelterFilter() {
+	$("#dogList").empty();
+	var foundPet = shelterDogs
+	// data.petfinder.pets.pet[0]
+	for (var i = 0; i < foundPet.length; i++){
+		var petContact = foundPet[i].contact
+	// stores phone number to contact 
+	// shelter for pet in variable
+	
+	
+	var petContact = foundPet[i].contact
+
+	var petDiv = $("<div>").attr("id", "petDiv");
+	
+	if (petContact.phone.hasOwnProperty("$t") ) {
+		var petPhone = petContact.phone.$t
+		
+	} else {
+		var petPhone = "No Phone Number Listed"
+	}
+	
+
+	
+		
+	// stores email to contact
+	// shelter for pet in variable
+	var petEmail = petContact.email.$t
+		
+	// stores city pet is located in a variable
+	var petCity = petContact.city.$t
+		
+	// stores zip code of pet's city 
+	// in a varible
+	var petZip = petContact.zip.$t
+		
+		
+	// stores age of pet in a variable
+		
+	var petAge = foundPet[i].age.$t
+		
+	// stores size of pet in a variable
+	var petSize = foundPet[i].size.$t
+		
+	// stores name of pet in a variable
+	var petName = foundPet[i].name.$t
+		
+	// stores gender of pet in a variable
+	var petSex = foundPet[i].sex.$t
+	var foundPetMedia = foundPet[i].media
+	
+	
+	var i = [i]
+	
+	
+	if (foundPetMedia.hasOwnProperty("photos") ) {
+		
+		var foundPetImage = foundPetMedia.photos.photo[2].$t
+	} else {
+		var foundPetImage = "assets/images/No-image-found.jpg"
+	}
+	
+	
+	
+	var petButton = $("<a>").text(petName);
+
+	var petImage = $("<img>");
+	
+
+	petImage.attr("src", foundPetImage)
+	
+
+
+	petImage.attr("id", "pet-image")
+	petImage.attr("alt", petName)
+	petButton.addClass("waves-effect waves-light btn")
+	petButton.attr("id", "pet-info")
+	petButton.attr("href", "#modal"+ i)
+	petImage.attr("href", "#modal"+ i)
+	petImage.addClass("btn")
+	
+	
+	// petDiv.append(p);
+	petDiv.append(petImage);
+	petDiv.append(petButton);
+		 
+		 
+	petDiv.addClass("col lg3")
+	 $("#dogList").append(petDiv);
+	}
+}
 
 
 // Initialize Firebase
@@ -309,6 +400,7 @@ var googleMap = {
 			id: id,
 		});
 		marker.addListener('click', function() {
+			clickedShelter = marker.id;
 			var infowindowContent = marker.id+"<button id='"+marker.id+"'>Set as Favorite</button>";
 			googleMap.infowindow.setContent(infowindowContent);
 			googleMap.infowindow.setPosition(marker.position);
@@ -319,6 +411,7 @@ var googleMap = {
 					shelterDogs.push(dogsReturned[i]);
 				}
 			}
+			shelterFilter();
 			$("#"+marker.id).on("click", favorites.setFavorite);
 		});
 	},
