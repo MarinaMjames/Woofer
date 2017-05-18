@@ -60,7 +60,7 @@ function renderDogs() {
 				// stores image of pet in a variable
 				var p = $("<p>").text("Name: " + petName);
 				var petImage = $("<img>");
-				petImage.attr("src", foundPet[i].media.photos.photo[7].$t)
+				petImage.attr("src", foundPet[i].media.photos.photo[0].$t)
 				petImage.attr("id", "pet-image")
 				petDiv.append(p);
 				petDiv.append(petImage);
@@ -192,7 +192,7 @@ var googleMap = {
 			id: id,
 		});
 		marker.addListener('click', function() {
-			var infowindowContent = marker.id;
+			var infowindowContent = marker.id+"<button id='"+marker.id+"'>Set as Favorite</button>";
 			googleMap.infowindow.setContent(infowindowContent);
 			googleMap.infowindow.setPosition(marker.position);
 			googleMap.infowindow.open(map, marker);
@@ -202,6 +202,7 @@ var googleMap = {
 					shelterDogs.push(dogsReturned[i]);
 				}
 			}
+			$("#"+marker.id).on("click", favorites.setFavorite);
 		});
 	},
 	// function to change zip code to lat lng
@@ -215,3 +216,31 @@ var googleMap = {
 		});
 	},
 }
+
+var favorites = {
+	userFavorites: [],
+	userKey: null,
+	getKey: function() {
+		favorites.userKey = localStorage.getItem("storedKey");
+		if(!favorites.userKey) {
+			favorites.userKey = database.ref("users").push().getKey();
+			localStorage.setItem("storedKey", favorites.userKey);
+		} else {
+			favorites.getFavorites();
+		}
+	},
+	getFavorites: function() {
+		database.ref("users/"+favorites.userKey).once("value", function(snapshot) {
+			console.log(snapshot.val());
+		});
+	},
+	setFavorite: function() {
+		var shelter = $(this).attr("id");
+		favorites.userFavorites.push(shelter);
+		database.ref("users/"+favorites.userKey).update({
+			shleters: favorites.userFavorites
+		}).then(favorites.getFavorites);
+		console.log("favorite set: "+shelter);
+	},
+}
+favorites.getKey();
