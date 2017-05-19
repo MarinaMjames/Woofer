@@ -47,10 +47,26 @@ body{
 	border-width: 1px;
 	border-style: solid;
 }
+
+#dogList {
+	width: 60%;
+}
 #map{
 	margin: 10px;
 	height: 50em;
 }
 #submit-info{
 	margin: 20px;
+}
+
+
+#pet-image {
+	border-radius: 25px;
+	width: 200px;
+	height: 150px;
+	padding: 5px;
+}
+
+#btn-dog {
+	margin: 25px;
 }
