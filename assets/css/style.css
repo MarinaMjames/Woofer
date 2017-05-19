@@ -37,7 +37,6 @@ body{
 	text-align: center;
 	font-size: 40px;
 	color: white;
-	margin-top: 20px;
 	padding-left: 20px;
 }
 #mainContent{
@@ -70,6 +69,7 @@ body{
 #btn-dog {
 	margin: 25px;
 }
-#petDiv{
-	
+#pet-image{
+	height: 200px;
+	width: 200px;
 }
