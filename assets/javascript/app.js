@@ -350,6 +350,9 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database(); 
 
+// database.set().push(){
+//   "": ,
+// }
 
 
 // for materialize dropdowns and modals
@@ -357,11 +360,6 @@ var database = firebase.database();
 // variables to store user info from form
 
 var zip = "";
-// var dogBreed = "";
-// var dogGender = "";
-// var dogAge = "";
-// var dogSize = "";
-
 
 // on click function for form submit button
 $("#submit-info").on("click", function() {
@@ -410,9 +408,13 @@ var googleMap = {
 			position: location,
 			map: map,
 			animation: google.maps.Animation.DROP,
+
+			icon: "assets/images/1494713807_dog.png",
+
 			icon: "assets/images/marker.png",
 			title: title,
 			id: id,
+
 		});
 		marker.addListener('click', function() {
 			clickedShelter = marker.id;
