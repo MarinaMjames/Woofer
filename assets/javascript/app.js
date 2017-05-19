@@ -23,8 +23,10 @@ $(document).ready(function() {
 	var dogPhone = ""
  	var dogEmail = ""
 
-	var dogsReturned = []
-	
+	var dogsReturned;
+	var shelterIDs = [];
+	var sheltersReturned = [];
+	var shelterDogs = [];
 	// 
 
 
@@ -34,12 +36,14 @@ function renderDogs() {
 
 	var userCount = $("#search_limit").val();
 	var searchCount = "count=" + userCount + "&";
+
 	
 	var userSex = $("#dog_gender").val();
 	var searchSex = "sex="+ userSex + "&";
 
 	var userSize = $("#dog_size").val()
 	var searchSize = "size="+ userSize +"&";
+
 
 	var userAge = $("#dog_age").val()
 	var searchAge = "age=" + userAge  + "&"
@@ -59,13 +63,14 @@ function renderDogs() {
 	    $("#listOfDogs").empty();
 	    
 		var foundPet = data.petfinder.pets.pet
+
+		dogsReturned = foundPet;
 			// data.petfinder.pets.pet[0]
 			for (var i = 0; i < foundPet.length; i++){
 				var petContact = foundPet[i].contact
 			// stores phone number to contact 
 			// shelter for pet in variable
 			
-			dogsReturned.push(foundPet)
 			
 			var petContact = foundPet[i].contact
 
@@ -183,7 +188,9 @@ function renderDogs() {
 
 			// stores Shelter ID for pet in a variable 
 			var petShelterID = foundPet[i].shelterId.$t
-
+			if (shelterIDs.indexOf(petShelterID) === -1) {
+				shelterIDs.push(petShelterID);
+			}
 			
 			
 			
@@ -192,7 +199,33 @@ function renderDogs() {
 		
 		$('select').material_select();
   		$('.modal').modal();
+  		// get shelter info based off shelter id
+			var count = 0;
+			for (var i = 0; i < shelterIDs.length; i++) {
+			var shelterURL = baseURL+"shelter.get?"+yourKey+"id="+shelterIDs[i]+"&"+format;
+			$.ajax({ 
+				method: 'GET', 
+				url: shelterURL + '&callback=?', 
+				dataType: 'json', 
+				success: function(data) {
+					sheltersReturned.push(data.petfinder.shelter);
+				}
+			}).done(function() {
+				count++;
+				// display markers after ajax is done
+				if (count == shelterIDs.length) {
+					for (var i = 0; i < sheltersReturned.length; i++) {
+						var location = {lat: Number(sheltersReturned[i].latitude.$t),
+										lng: Number(sheltersReturned[i].longitude.$t)};
+						var title = sheltersReturned[i].name.$t;
+						var id = sheltersReturned[i].id.$t;
+						googleMap.setMarker(location, title, id);
+					}
+				}
+			});
+			}
 		}
+
 
 	  });
 
@@ -229,18 +262,12 @@ $("#submit-info").on("click", function() {
 	event.preventDefault();
 
 	// set user input to appropriate variables
-	
-	// dogBreed = $("#dog_breed").val().trim();
-	// dogGender = $("#dog_gender").val();
-	// dogAge = $("#dog_age").val();
- //  dogSize = $("#dog_size").val();
 
 
-	// console.log("dogBreed: "+dogBreed);
-	// console.log("dogGender: "+dogGender);
-	// console.log("dogAge: "+dogAge);
- //  console.log("dogSize: "+dogSize);
- //  console.log("zipCode: " +zip);
+
+	zip = $("#zip_code").val().trim();
+
+
 
  	renderDogs();
 	// empty mainContent div and append a div for the map to it
@@ -255,106 +282,47 @@ $("#submit-info").on("click", function() {
 
 // object to handle Google Maps API
 var googleMap = {
-	map: {},
-	infoWindow: {},
-	geocoder: null,
+	infowindow: null,
 	// display map function
 	initMap: function() {
 		// initial map
 		map = new google.maps.Map(document.getElementById('map'), {
 			center: {lat: 40.712, lng: -74.0059},
-			zoom: 15,
+			zoom: 10,
 			gestureHandling: 'cooperative',
 		});
-		infoWindow = new google.maps.InfoWindow;
 
-		// Try HTML5 geolocation.
-		/*if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(function(position) {
-				var pos = {
-					lat: position.coords.latitude,
-					lng: position.coords.longitude,
-				};
-
-				infoWindow.setPosition(pos);
-				infoWindow.setContent('You Are Here');
-				infoWindow.open(map);
-				map.setCenter(pos);
-			}, function() {
-				googleMap.handleLocationError(true, infoWindow, map.getCenter());
-			});
-		} else {
-			// Browser doesn't support Geolocation
-			googleMap.handleLocationError(false, infoWindow, map.getCenter());
-		}*/
+		googleMap.infowindow = new google.maps.InfoWindow();
 
 		geocoder = new google.maps.Geocoder();
 		googleMap.codeAddress();
-
-		// add marker at click location
-		google.maps.event.addListener(map, 'click', function(event) {
-			console.log("event: "+JSON.stringify(event));
-			googleMap.placeYourMarker(event.latLng);
-		});
-
-		googleMap.playDates();
 	},
-	// function to handle errors for geolocation
-	handleLocationError: function(browserHasGeolocation, infoWindow, pos) {
-		infoWindow.setPosition(pos);
-		infoWindow.setContent(browserHasGeolocation ?
-			'Error: The Geolocation service failed.' :
-			'Error: Your browser doesn\'t support geolocation.');
-		infoWindow.open(map);
-	},
-	// function to place a marker
-	placeYourMarker: function(location) {
-		var yourMarker = new google.maps.Marker({
+	// display markers for play dates
+	setMarker: function(location, title, id) {
+		console.log("setMarker ran");
+		var marker = new google.maps.Marker({
 			position: location,
 			map: map,
 			animation: google.maps.Animation.DROP,
 			icon: "assets/images/marker.png",
+			title: title,
+			id: id,
+		});
+		marker.addListener('click', function() {
+			var infowindowContent = marker.id+"<button id='"+marker.id+"'>Set as Favorite</button>";
+			googleMap.infowindow.setContent(infowindowContent);
+			googleMap.infowindow.setPosition(marker.position);
+			googleMap.infowindow.open(map, marker);
+			shelterDogs = [];
+			for (var i = 0; i < dogsReturned.length; i++) {
+				if (marker.id == dogsReturned[i].shelterId.$t) {
+					shelterDogs.push(dogsReturned[i]);
+				}
+			}
+			$("#"+marker.id).on("click", favorites.setFavorite);
 		});
 	},
-	// display markers for play dates
-	playDates: function(location) {
-		database.ref("playDateLocations/playDates").once("value").then(function(snapshot) {
-			snapshot.forEach(function(childSnapshot) {
-				var key = childSnapshot.key;
-				var location = childSnapshot.val().location;
 
-				var marker = new google.maps.Marker({
-					position: location,
-					map: map,
-					animation: google.maps.Animation.DROP,
-					icon: "assets/images/dogMarker.png",
-					key: key
-				});
-				marker.addListener('click', function() {
-					googleMap.markerData(marker.key);
-				});				
-			}); // end of childSnapshot
-		}); // end of snapshot
-	},
-	// function to display info about play date
-	// markerData: function(key) {
-	// 	database.ref("playDateLocations/playDates/"+key).once("value").then(function(snapshot) {
-	// 		$("#modalContent").empty();
-	// 		var playDateName = $("<h4>").html(snapshot.val().name);
-	// 		var playDateTwitterHandle = $("<p>").html(snapshot.val().twitterHandle);
-	// 		var playDateDogName = $("<h5>").html(snapshot.val().dogName);
-	// 		var playDateDogBreed = $("<p>").html("<strong>Breed:</strong> "+snapshot.val().dogBreed);
-	// 		var playDateDogAge = $("<p>").html("<strong>Age:</strong> "+snapshot.val().dogAge);
-	// 		var playDateDogTemp = $("<p>").html("<strong>Temperament:</strong> "+snapshot.val().dogTemp);
-	// 		$("#modalContent").append(playDateName)
-	// 						.append(playDateTwitterHandle)
-	// 						.append(playDateDogName)
-	// 						.append(playDateDogBreed)
-	// 						.append(playDateDogAge)
-	// 						.append(playDateDogTemp);
-	// 		$("#markerDataModal").modal("open");
-	// 	});
-	// },
 	// function to change zip code to lat lng
 	codeAddress: function() {
 		geocoder.geocode( { 'address': zip}, function(results, status) {
@@ -366,4 +334,33 @@ var googleMap = {
 		});
 	},
 }
+
+
+var favorites = {
+	userFavorites: [],
+	userKey: null,
+	getKey: function() {
+		favorites.userKey = localStorage.getItem("storedKey");
+		if(!favorites.userKey) {
+			favorites.userKey = database.ref("users").push().getKey();
+			localStorage.setItem("storedKey", favorites.userKey);
+		} else {
+			favorites.getFavorites();
+		}
+	},
+	getFavorites: function() {
+		database.ref("users/"+favorites.userKey).once("value", function(snapshot) {
+			console.log(snapshot.val());
+		});
+	},
+	setFavorite: function() {
+		var shelter = $(this).attr("id");
+		favorites.userFavorites.push(shelter);
+		database.ref("users/"+favorites.userKey).update({
+			shleters: favorites.userFavorites
+		}).then(favorites.getFavorites);
+		console.log("favorite set: "+shelter);
+	},
+}
+favorites.getKey();
 
