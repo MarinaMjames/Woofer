@@ -643,7 +643,9 @@ var googleMap = {
 		marker.addListener('click', function() {
 			clickedShelter = marker.id;
 			for (var i = 0; i < sheltersReturned.length; i++) {
-				if (sheltersReturned[i].id.$t == marker.id) {
+				var shelterID = sheltersReturned[i].id
+					
+				if (shelterID.$t == marker.id) {
 					var street = sheltersReturned[i].address1.$t;
 					if (street === undefined) {street = "";}
 					var town = sheltersReturned[i].city.$t;
