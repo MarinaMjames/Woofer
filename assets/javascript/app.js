@@ -16,6 +16,7 @@ $(document).ready(function() {
 	var format = "format=json";
 
 	var dogName = ""
+	var userName = ""
 
 	var dogAge = ""
 	var dogGender = ""
@@ -71,7 +72,7 @@ function renderDogs() {
 			// stores phone number to contact 
 			// shelter for pet in variable
 			
-			
+			// blah blah blah
 			var petContact = foundPet[i].contact
 
 			var petDiv = $("<div>").attr("id", "petDiv");
