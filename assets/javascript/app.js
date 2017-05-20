@@ -4,7 +4,7 @@ $(document).ready(function() {
 });
 	
 
-	var yourKey = "key=07e7adfc27bd9872413e0961018c8013&";
+	var yourKey = "key=b3f66f86a045bd6d50821d60ed47fdfa&";
 	var baseURL = "https://api.petfinder.com/";
 	var reqType = "pet.find?";
 	var dogSearch = "animal=dog&";
@@ -60,7 +60,7 @@ function renderDogs() {
 	  dataType: 'json', 
 	  success: function(data) { 
 	    
-	    console.log(data)
+	    
 	    $("#listOfDogs").empty();
 	    
 		var foundPet = data.petfinder.pets.pet
@@ -213,16 +213,20 @@ function renderDogs() {
 				}
 			}).done(function() {
 				count++;
+				
 				// display markers after ajax is done
 				if (count == shelterIDs.length) {
+					
 					for (var i = 0; i < sheltersReturned.length; i++) {
+						if (sheltersReturned[i] != null) {
 						var location = {lat: Number(sheltersReturned[i].latitude.$t),
 										lng: Number(sheltersReturned[i].longitude.$t)};
 						var title = sheltersReturned[i].name.$t;
 						var id = sheltersReturned[i].id.$t;
 						googleMap.setMarker(location, title, id);
+						}
 					}
-				}
+				} 
 			});
 			}
 		}
@@ -283,7 +287,7 @@ function shelterFilter() {
 			
 			if (foundBreeds instanceof Array) {
 				var petBreeds = foundBreeds[0].$t
-				console.log(petBreeds)
+				
 			} else {
 				var petBreeds = foundBreeds.$t
 			}	
@@ -643,27 +647,29 @@ var googleMap = {
 		marker.addListener('click', function() {
 			clickedShelter = marker.id;
 			for (var i = 0; i < sheltersReturned.length; i++) {
-				var shelterID = sheltersReturned[i].id
-					
-				if (shelterID.$t == marker.id) {
-					var street = sheltersReturned[i].address1.$t;
-					if (street === undefined) {street = "";}
-					var town = sheltersReturned[i].city.$t;
-					var state = sheltersReturned[i].state.$t;
-					var zipCode = sheltersReturned[i].zip.$t;
-					var phone = sheltersReturned[i].phone
-  					if (phone.hasOwnProperty("$t") ) {
-				        var phone = phone.$t
-				        
-				    } else {
-				        var phone = "No Phone Number Listed"
-				    }
-					var infowindowContent = "<h6><strong>"+sheltersReturned[i].name.$t+"</strong><h6>"
-								+"<p><small>Address: "+street+" "+town+", "+state+" "+zipCode+"</small></p>"
-								+"<p><small>Phone: "+phone+"</small></p>"
-								+"<p><small>Email: "+sheltersReturned[i].email.$t+"</small></p>"
-								+"<button id='"+marker.id+"' class='waves-effect waves-light btn'>Set as Favorite</button>";
+				if (sheltersReturned[i] != null) {
+					var shelterID = sheltersReturned[i].id
+						
+					if (shelterID.$t == marker.id) {
+						var street = sheltersReturned[i].address1.$t;
+						if (street === undefined) {street = "";}
+						var town = sheltersReturned[i].city.$t;
+						var state = sheltersReturned[i].state.$t;
+						var zipCode = sheltersReturned[i].zip.$t;
+						var phone = sheltersReturned[i].phone
+	  					if (phone.hasOwnProperty("$t") ) {
+					        var phone = phone.$t
+					        
+					    } else {
+					        var phone = "No Phone Number Listed"
+					    }
+						var infowindowContent = "<h6><strong>"+sheltersReturned[i].name.$t+"</strong><h6>"
+									+"<p><small>Address: "+street+" "+town+", "+state+" "+zipCode+"</small></p>"
+									+"<p><small>Phone: "+phone+"</small></p>"
+									+"<p><small>Email: "+sheltersReturned[i].email.$t+"</small></p>"
+									+"<button id='"+marker.id+"' class='waves-effect waves-light btn'>Set as Favorite</button>";
 				}
+			}
 			}
 			googleMap.infowindow.setContent(infowindowContent);
 			googleMap.infowindow.setPosition(marker.position);
@@ -724,7 +730,16 @@ var favorites = {
 						var state = data.petfinder.shelter.state.$t;
 						var zipCode = data.petfinder.shelter.zip.$t;
 						var address = $("<p>").html("<small>Address: "+street+" "+town+", "+state+" "+zipCode+"</small>");
-						var phone = $("<p>").html("<small>Phone: "+data.petfinder.shelter.phone.$t+"</small>");
+						
+						var phoneNumber = data.petfinder.shelter.phone
+						if (phoneNumber.hasOwnProperty("$t") ) {
+				        var phoneNumber = phoneNumber.$t
+				        
+					   	 } else {
+					        var phoneNumber = "No Phone Number Listed"
+					    }
+
+						var phone = $("<p>").html("<small>Phone: "+phoneNumber+"</small>");
 						var email = $("<p>").html("<small>Email: "+data.petfinder.shelter.email.$t+"</small>");
 						var search = $("<button>").attr("id", data.petfinder.shelter.id.$t).addClass("favSearch waves-effect waves-light btn").html("Search Shelter");
 						shelterDiv.append(name)
