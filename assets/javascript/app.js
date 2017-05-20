@@ -121,7 +121,7 @@ function renderDogs() {
 				
 				var foundPetImage = foundPetMedia.photos.photo[2].$t
 			} else {
-				var foundPetImage = "assets/images/No-image-found.gif"
+				var foundPetImage = "assets/images/no-image-found.gif"
 			}
 			
 			
@@ -299,7 +299,7 @@ function shelterFilter() {
 		
 		var foundPetImage = foundPetMedia.photos.photo[2].$t
 	} else {
-		var foundPetImage = "assets/images/No-image-found.gif"
+		var foundPetImage = "assets/images/no-image-found.gif"
 	}
 	
 	
