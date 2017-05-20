@@ -376,6 +376,7 @@ function favSearch(shelterID) {
 	  url: fullURL + '&callback=?', 
 	  dataType: 'json', 
 	  success: function(data) {
+	  	console.log(data);
 	    $("#listOfDogs").empty();
 	    
 		var foundPet = data.petfinder.pets.pet
@@ -383,133 +384,132 @@ function favSearch(shelterID) {
 		dogsReturned = foundPet;
 			// data.petfinder.pets.pet[0]
 			for (var i = 0; i < foundPet.length; i++){
-				var petContact = foundPet[i].contact
-			// stores phone number to contact 
-			// shelter for pet in variable
-			
-			
-			var petContact = foundPet[i].contact
+				if (foundPet[i].animal.$t == "Dog") {
+					var petContact = foundPet[i].contact
+					// stores phone number to contact 
+					// shelter for pet in variable
+					
+					
+					var petContact = foundPet[i].contact
 
-			var petDiv = $("<div>").attr("id", "petDiv");
-			
-			if (petContact.phone.hasOwnProperty("$t") ) {
-				var petPhone = petContact.phone.$t
-				
-			} else {
-				var petPhone = "No Phone Number Listed"
-			}
-			
+					var petDiv = $("<div>").attr("id", "petDiv");
+					
+					if (petContact.phone.hasOwnProperty("$t") ) {
+						var petPhone = petContact.phone.$t
+						
+					} else {
+						var petPhone = "No Phone Number Listed"
+					}
+					
 
-			
-				
-			// stores email to contact
-			// shelter for pet in variable
-			var petEmail = petContact.email.$t
-				
-			// stores city pet is located in a variable
-			var petCity = petContact.city.$t
-				
-			// stores zip code of pet's city 
-			// in a varible
-			var petZip = petContact.zip.$t
-				
-				
-			// stores age of pet in a variable
-				
-			var petAge = foundPet[i].age.$t
-				
-			// stores size of pet in a variable
-			var petSize = foundPet[i].size.$t
-				
-			// stores name of pet in a variable
-			var petName = foundPet[i].name.$t
-				
-			// stores gender of pet in a variable
-			var petSex = foundPet[i].sex.$t
-			var foundPetMedia = foundPet[i].media
-			
-			
-			var i = [i]
-			
-			
-			if (foundPetMedia.hasOwnProperty("photos") ) {
-				
-				var foundPetImage = foundPetMedia.photos.photo[2].$t
-			} else {
-				var foundPetImage = "assets/images/No-image-found.jpg"
-			}
-			
-			
-			
-			var petButton = $("<a>").text(petName);
+					
+						
+					// stores email to contact
+					// shelter for pet in variable
+					var petEmail = petContact.email.$t
+						
+					// stores city pet is located in a variable
+					var petCity = petContact.city.$t
+						
+					// stores zip code of pet's city 
+					// in a varible
+					var petZip = petContact.zip.$t
+						
+						
+					// stores age of pet in a variable
+						
+					var petAge = foundPet[i].age.$t
+						
+					// stores size of pet in a variable
+					var petSize = foundPet[i].size.$t
+						
+					// stores name of pet in a variable
+					var petName = foundPet[i].name.$t
+						
+					// stores gender of pet in a variable
+					var petSex = foundPet[i].sex.$t
+					var foundPetMedia = foundPet[i].media
+					
+					
+					var i = [i]
+					
+					
+					if (foundPetMedia.hasOwnProperty("photos") ) {
+						
+						var foundPetImage = foundPetMedia.photos.photo[2].$t
+					} else {
+						var foundPetImage = "assets/images/No-image-found.jpg"
+					}
+					
+					
+					
+					var petButton = $("<a>").text(petName);
 
-			var petImage = $("<img>");
-			
+					var petImage = $("<img>");
+					
 
-			petImage.attr("src", foundPetImage)
-			
-
-
-			petImage.attr("id", "pet-image")
-			petImage.attr("alt", petName)
-			petButton.addClass("waves-effect waves-light btn")
-			petButton.attr("id", "pet-info")
-			petButton.attr("href", "#modal"+ i)
-			petImage.attr("href", "#modal"+ i)
-			petImage.addClass("btn")
-			
-			
-			// petDiv.append(p);
-			petDiv.append(petImage);
-			petDiv.append(petButton);
-				 
-				 
-			petDiv.addClass("col lg3")
-			 $("#dogList").append(petDiv);
-			
-			var modalDiv = $("<div>").attr("id", "modal"+i)
-		
-			modalDiv.addClass("modal")
-			
-			
-			var modalContent = $("<div>").attr("id", "modalContent"+i)
-			
-			modalContent.addClass("modal-content")
-			// modalContent.attr("id", "dog-"+i)
-
-			var modalFooter = $("<div>")
-			modalFooter.addClass("modal-footer")
-			var modalA = $("<a>").text("Close")
-			modalA.addClass("modal-action modal-close waves-effect waves-green btn-flat")
-			modalFooter.append(modalA)
-			modalDiv.append(modalContent)
-			modalDiv.append(modalFooter)
-			$("#modalContainer").append(modalDiv)
-			
-			var dogHeader = $("<h4>").html(petName);
-			var dogAgeP = $("<p>").html("<strong>Age:</strong> "+ petAge);
-			var dogGenderP = $("<p>").html("<strong>Gender:</strong> "+ petSex );
-			var dogSizeP = $("<p>").html("<strong>Size:</strong> "+ petSize);
-			var contactDog = $("<h5>").html("Contact Info");
-			var dogPhoneP = $("<p>").html("<strong>Phone Number:</strong> "+ petPhone);
-			var dogEmailP = $("<p>").html("<strong>Email:</strong> "+ petEmail);
-			$("#modalContent"+i).append(dogHeader)
-							.append(dogAgeP)
-							.append(dogGenderP)
-							.append(dogSizeP)
-							.append(contactDog)
-							.append(dogPhoneP)
-							.append(dogEmailP)
+					petImage.attr("src", foundPetImage)
+					
 
 
-			// stores Shelter ID for pet in a variable 
-			var petShelterID = foundPet[i].shelterId.$t
-			if (shelterIDs.indexOf(petShelterID) === -1) {
-				shelterIDs.push(petShelterID);
-			}
-			
-			
-			
+					petImage.attr("id", "pet-image")
+					petImage.attr("alt", petName)
+					petButton.addClass("waves-effect waves-light btn")
+					petButton.attr("id", "pet-info")
+					petButton.attr("href", "#modal"+ i)
+					petImage.attr("href", "#modal"+ i)
+					petImage.addClass("btn")
+					
+					
+					// petDiv.append(p);
+					petDiv.append(petImage);
+					petDiv.append(petButton);
+						 
+						 
+					petDiv.addClass("col lg3")
+					 $("#dogList").append(petDiv);
+					
+					var modalDiv = $("<div>").attr("id", "modal"+i)
+				
+					modalDiv.addClass("modal")
+					
+					
+					var modalContent = $("<div>").attr("id", "modalContent"+i)
+					
+					modalContent.addClass("modal-content")
+					// modalContent.attr("id", "dog-"+i)
+
+					var modalFooter = $("<div>")
+					modalFooter.addClass("modal-footer")
+					var modalA = $("<a>").text("Close")
+					modalA.addClass("modal-action modal-close waves-effect waves-green btn-flat")
+					modalFooter.append(modalA)
+					modalDiv.append(modalContent)
+					modalDiv.append(modalFooter)
+					$("#modalContainer").append(modalDiv)
+					
+					var dogHeader = $("<h4>").html(petName);
+					var dogAgeP = $("<p>").html("<strong>Age:</strong> "+ petAge);
+					var dogGenderP = $("<p>").html("<strong>Gender:</strong> "+ petSex );
+					var dogSizeP = $("<p>").html("<strong>Size:</strong> "+ petSize);
+					var contactDog = $("<h5>").html("Contact Info");
+					var dogPhoneP = $("<p>").html("<strong>Phone Number:</strong> "+ petPhone);
+					var dogEmailP = $("<p>").html("<strong>Email:</strong> "+ petEmail);
+					$("#modalContent"+i).append(dogHeader)
+									.append(dogAgeP)
+									.append(dogGenderP)
+									.append(dogSizeP)
+									.append(contactDog)
+									.append(dogPhoneP)
+									.append(dogEmailP)
+
+
+					// stores Shelter ID for pet in a variable 
+					var petShelterID = foundPet[i].shelterId.$t
+					if (shelterIDs.indexOf(petShelterID) === -1) {
+						shelterIDs.push(petShelterID);
+					}
+				}
 			}	
 		
 		
