@@ -1,10 +1,9 @@
 # :dog: :dog: Woofer :dog: :dog:
 
 ## Collaborators 
+* **Marina James** - [marinamjames](https://github.com/marinamjames)
 * **Joseph Ball** - [josephtball](https://github.com/josephtball)
 * **Andrew Sadowski** - [andore92](https://github.com/andore92)
-* **Patty Cross** - [pattycakes125](https://github.com/pattycakes125)
-* **Marina James** - [marinamjames](https://github.com/marinamjames)
 
 ## Project Description: 
 Are you looking for a new furry friend. Input your zip code, dog size, dog age and gender to get back a list of dogs in your area. Easily find dogs that are local to you! 
