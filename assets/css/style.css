@@ -45,7 +45,6 @@ body{
 	border-width: 1px;
 	border-style: solid;
 }
-
 #dogList {
 	width: 60%;
 }
@@ -56,19 +55,12 @@ body{
 #submit-info{
 	margin: 20px;
 }
-
-
 #pet-image {
 	border-radius: 25px;
-	width: 200px;
-	height: 150px;
-	padding: 5px;
-}
-
-#btn-dog {
-	margin: 25px;
-}
-#pet-image{
 	height: 200px;
 	width: 200px;
+	padding: 5px;
+}
+#btn-dog {
+	margin: 25px;
 }

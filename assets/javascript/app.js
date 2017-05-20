@@ -459,7 +459,7 @@ var googleMap = {
 
 			icon: "assets/images/1494713807_dog.png",
 
-			icon: "assets/images/marker.png",
+			icon: "assets/images/1494713807_dog.png",
 			title: title,
 			id: id,
 
