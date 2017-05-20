@@ -75,7 +75,7 @@ body{
 	border-width: 1px;
 	border-style: solid;
 }
-.holder {
+.scrollingText {
 	position:relative;
 	top:200px;
 	left:250px;
@@ -83,18 +83,18 @@ body{
 	height:50px;
 	overflow:visible;
 }
-ul.list {
+ul.words {
 	position:relative;
 	display:inline-block;
 	list-style:none;
 }
-ul.list.cloned {
+ul.words.cloned {
 	position:absolute;
 	top:0;
 	left:0;
 	background-color: transparent;
 }
-ul.list li {
+ul.words li {
 	background-color: transparent;
 	float:left;
 	width:100px;
