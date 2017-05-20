@@ -120,7 +120,7 @@ function renderDogs() {
 				
 				var foundPetImage = foundPetMedia.photos.photo[2].$t
 			} else {
-				var foundPetImage = "assets/images/No-image-found.jpg"
+				var foundPetImage = "assets/images/No-image-found.gif"
 			}
 			
 			
@@ -298,7 +298,7 @@ function shelterFilter() {
 		
 		var foundPetImage = foundPetMedia.photos.photo[2].$t
 	} else {
-		var foundPetImage = "assets/images/No-image-found.jpg"
+		var foundPetImage = "assets/images/No-image-found.gif"
 	}
 	
 	
@@ -634,7 +634,7 @@ var googleMap = {
 
 			icon: "assets/images/1494713807_dog.png",
 
-			icon: "assets/images/marker.png",
+			icon: "assets/images/1494713807_dog.png",
 			title: title,
 			id: id,
 
