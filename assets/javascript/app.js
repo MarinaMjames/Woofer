@@ -648,9 +648,16 @@ var googleMap = {
 					var town = sheltersReturned[i].city.$t;
 					var state = sheltersReturned[i].state.$t;
 					var zipCode = sheltersReturned[i].zip.$t;
+					var phone = sheltersReturned[i].phone
+  					if (phone.hasOwnProperty("$t") ) {
+				        var phone = phone.$t
+				        
+				    } else {
+				        var phone = "No Phone Number Listed"
+				    }
 					var infowindowContent = "<h6><strong>"+sheltersReturned[i].name.$t+"</strong><h6>"
 								+"<p><small>Address: "+street+" "+town+", "+state+" "+zipCode+"</small></p>"
-								+"<p><small>Phone: "+sheltersReturned[i].phone.$t+"</small></p>"
+								+"<p><small>Phone: "+phone+"</small></p>"
 								+"<p><small>Email: "+sheltersReturned[i].email.$t+"</small></p>"
 								+"<button id='"+marker.id+"' class='waves-effect waves-light btn'>Set as Favorite</button>";
 				}
