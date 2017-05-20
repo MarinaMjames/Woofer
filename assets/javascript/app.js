@@ -248,6 +248,7 @@ function renderDogs() {
 }
 function shelterFilter() {
 	$("#dogList").empty();
+	$("#modalContainer").empty();
 	var foundPet = shelterDogs
 	// data.petfinder.pets.pet[0]
 	for (var i = 0; i < foundPet.length; i++){
@@ -291,7 +292,16 @@ function shelterFilter() {
 		
 	// stores name of pet in a variable
 	var petName = foundPet[i].name.$t
-		
+	
+	var foundBreeds = foundPet[i].breeds.breed
+			var petBreeds = ""
+			
+			if (foundBreeds instanceof Array) {
+				var petBreeds = foundBreeds[0].$t
+				console.log(petBreeds)
+			} else {
+				var petBreeds = foundBreeds.$t
+			}	
 	// stores gender of pet in a variable
 	var petSex = foundPet[i].sex.$t
 	var foundPetMedia = foundPet[i].media
@@ -334,7 +344,45 @@ function shelterFilter() {
 		 
 	petDiv.addClass("col lg3")
 	 $("#dogList").append(petDiv);
+
+	 var modalDiv = $("<div>").attr("id", "modal"+i)
+		
+			modalDiv.addClass("modal")
+			
+			
+			var modalContent = $("<div>").attr("id", "modalContent"+i)
+			
+			modalContent.addClass("modal-content")
+			// modalContent.attr("id", "dog-"+i)
+
+			var modalFooter = $("<div>")
+			modalFooter.addClass("modal-footer")
+			var modalA = $("<a>").text("Close")
+			modalA.addClass("modal-action modal-close waves-effect waves-green btn-flat")
+			modalFooter.append(modalA)
+			modalDiv.append(modalContent)
+			modalDiv.append(modalFooter)
+			$("#modalContainer").append(modalDiv)
+			
+			var dogHeader = $("<h4>").html(petName);
+			var dogBreedP = $("<p>").html("<strong>Breed:</strong> "+ petBreeds);
+			var dogAgeP = $("<p>").html("<strong>Age:</strong> "+ petAge);
+			var dogGenderP = $("<p>").html("<strong>Gender:</strong> "+ petSex );
+			var dogSizeP = $("<p>").html("<strong>Size:</strong> "+ petSize);
+			var contactDog = $("<h5>").html("Contact Info");
+			var dogPhoneP = $("<p>").html("<strong>Phone Number:</strong> "+ petPhone);
+			var dogEmailP = $("<p>").html("<strong>Email:</strong> "+ petEmail);
+			$("#modalContent"+i).append(dogHeader)
+							.append(dogAgeP)
+							.append(dogBreedP)
+							.append(dogGenderP)
+							.append(dogSizeP)
+							.append(contactDog)
+							.append(dogPhoneP)
+							.append(dogEmailP)
 	}
+	$('select').material_select();
+  		$('.modal').modal();
 }
 
 
