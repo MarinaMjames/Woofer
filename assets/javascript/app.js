@@ -108,19 +108,6 @@ function renderDogs() {
 				
 			// stores name of pet in a variable
 			var petName = foundPet[i].name.$t
-			
-			var foundBreeds = foundPet[i].breeds.breed
-			var petBreeds = ""
-			
-			if (foundBreeds instanceof Array) {
-				var petBreeds = foundBreeds[0].$t
-				console.log(petBreeds)
-			} else {
-				var petBreeds = foundBreeds.$t
-			}
-			
-			
-
 				
 			// stores gender of pet in a variable
 			var petSex = foundPet[i].sex.$t
@@ -185,7 +172,6 @@ function renderDogs() {
 			$("#modalContainer").append(modalDiv)
 			
 			var dogHeader = $("<h4>").html(petName);
-			var dogBreedP = $("<p>").html("<strong>Breed:</strong> "+ petBreeds);
 			var dogAgeP = $("<p>").html("<strong>Age:</strong> "+ petAge);
 			var dogGenderP = $("<p>").html("<strong>Gender:</strong> "+ petSex );
 			var dogSizeP = $("<p>").html("<strong>Size:</strong> "+ petSize);
@@ -194,7 +180,6 @@ function renderDogs() {
 			var dogEmailP = $("<p>").html("<strong>Email:</strong> "+ petEmail);
 			$("#modalContent"+i).append(dogHeader)
 							.append(dogAgeP)
-							.append(dogBreedP)
 							.append(dogGenderP)
 							.append(dogSizeP)
 							.append(contactDog)
@@ -337,6 +322,193 @@ function shelterFilter() {
 	}
 }
 
+function favSearch(shelterID) {
+	var fullURL = baseURL+"shelter.getPets?"+yourKey+"id="+shelterID+"&"+format;
+	$.ajax({ 
+	  method: 'GET', 
+	  url: fullURL + '&callback=?', 
+	  dataType: 'json', 
+	  success: function(data) {
+	    $("#listOfDogs").empty();
+	    
+		var foundPet = data.petfinder.pets.pet
+
+		dogsReturned = foundPet;
+			// data.petfinder.pets.pet[0]
+			for (var i = 0; i < foundPet.length; i++){
+				var petContact = foundPet[i].contact
+			// stores phone number to contact 
+			// shelter for pet in variable
+			
+			
+			var petContact = foundPet[i].contact
+
+			var petDiv = $("<div>").attr("id", "petDiv");
+			
+			if (petContact.phone.hasOwnProperty("$t") ) {
+				var petPhone = petContact.phone.$t
+				
+			} else {
+				var petPhone = "No Phone Number Listed"
+			}
+			
+
+			
+				
+			// stores email to contact
+			// shelter for pet in variable
+			var petEmail = petContact.email.$t
+				
+			// stores city pet is located in a variable
+			var petCity = petContact.city.$t
+				
+			// stores zip code of pet's city 
+			// in a varible
+			var petZip = petContact.zip.$t
+				
+				
+			// stores age of pet in a variable
+				
+			var petAge = foundPet[i].age.$t
+				
+			// stores size of pet in a variable
+			var petSize = foundPet[i].size.$t
+				
+			// stores name of pet in a variable
+			var petName = foundPet[i].name.$t
+				
+			// stores gender of pet in a variable
+			var petSex = foundPet[i].sex.$t
+			var foundPetMedia = foundPet[i].media
+			
+			
+			var i = [i]
+			
+			
+			if (foundPetMedia.hasOwnProperty("photos") ) {
+				
+				var foundPetImage = foundPetMedia.photos.photo[2].$t
+			} else {
+				var foundPetImage = "assets/images/No-image-found.jpg"
+			}
+			
+			
+			
+			var petButton = $("<a>").text(petName);
+
+			var petImage = $("<img>");
+			
+
+			petImage.attr("src", foundPetImage)
+			
+
+
+			petImage.attr("id", "pet-image")
+			petImage.attr("alt", petName)
+			petButton.addClass("waves-effect waves-light btn")
+			petButton.attr("id", "pet-info")
+			petButton.attr("href", "#modal"+ i)
+			petImage.attr("href", "#modal"+ i)
+			petImage.addClass("btn")
+			
+			
+			// petDiv.append(p);
+			petDiv.append(petImage);
+			petDiv.append(petButton);
+				 
+				 
+			petDiv.addClass("col lg3")
+			 $("#dogList").append(petDiv);
+			
+			var modalDiv = $("<div>").attr("id", "modal"+i)
+		
+			modalDiv.addClass("modal")
+			
+			
+			var modalContent = $("<div>").attr("id", "modalContent"+i)
+			
+			modalContent.addClass("modal-content")
+			// modalContent.attr("id", "dog-"+i)
+
+			var modalFooter = $("<div>")
+			modalFooter.addClass("modal-footer")
+			var modalA = $("<a>").text("Close")
+			modalA.addClass("modal-action modal-close waves-effect waves-green btn-flat")
+			modalFooter.append(modalA)
+			modalDiv.append(modalContent)
+			modalDiv.append(modalFooter)
+			$("#modalContainer").append(modalDiv)
+			
+			var dogHeader = $("<h4>").html(petName);
+			var dogAgeP = $("<p>").html("<strong>Age:</strong> "+ petAge);
+			var dogGenderP = $("<p>").html("<strong>Gender:</strong> "+ petSex );
+			var dogSizeP = $("<p>").html("<strong>Size:</strong> "+ petSize);
+			var contactDog = $("<h5>").html("Contact Info");
+			var dogPhoneP = $("<p>").html("<strong>Phone Number:</strong> "+ petPhone);
+			var dogEmailP = $("<p>").html("<strong>Email:</strong> "+ petEmail);
+			$("#modalContent"+i).append(dogHeader)
+							.append(dogAgeP)
+							.append(dogGenderP)
+							.append(dogSizeP)
+							.append(contactDog)
+							.append(dogPhoneP)
+							.append(dogEmailP)
+
+
+			// stores Shelter ID for pet in a variable 
+			var petShelterID = foundPet[i].shelterId.$t
+			if (shelterIDs.indexOf(petShelterID) === -1) {
+				shelterIDs.push(petShelterID);
+			}
+			
+			
+			
+			}	
+		
+		
+		$('select').material_select();
+  		$('.modal').modal();
+  		// get shelter info based off shelter id
+			var count = 0;
+			for (var i = 0; i < shelterIDs.length; i++) {
+			var shelterURL = baseURL+"shelter.get?"+yourKey+"id="+shelterIDs[i]+"&"+format;
+			$.ajax({ 
+				method: 'GET', 
+				url: shelterURL + '&callback=?', 
+				dataType: 'json', 
+				success: function(data) {
+					sheltersReturned.push(data.petfinder.shelter);
+				}
+			}).done(function() {
+				count++;
+				// display markers after ajax is done
+				if (count == shelterIDs.length) {
+					for (var i = 0; i < sheltersReturned.length; i++) {
+						zip = sheltersReturned[i].zip.$t;
+						googleMap.codeAddress()
+						var location = {lat: Number(sheltersReturned[i].latitude.$t),
+										lng: Number(sheltersReturned[i].longitude.$t)};
+						var title = sheltersReturned[i].name.$t;
+						var id = sheltersReturned[i].id.$t;
+						googleMap.setMarker(location, title, id);
+					}
+				}
+			});
+			}
+		}
+
+
+	  }).done(function() {
+	  	// empty mainContent div and append a div for the map to it
+		$("#mainContent").empty();
+		var mapDiv = $("<div>").attr("id", "map");
+		$("#mainContent").append(mapDiv);
+
+		// run function to display map
+		googleMap.initMap();
+	  });
+}
+
 
 // Initialize Firebase
 var config = {
@@ -405,7 +577,6 @@ var googleMap = {
 	},
 	// display markers for play dates
 	setMarker: function(location, title, id) {
-		console.log("setMarker ran");
 		var marker = new google.maps.Marker({
 			position: location,
 			map: map,
@@ -416,7 +587,20 @@ var googleMap = {
 		});
 		marker.addListener('click', function() {
 			clickedShelter = marker.id;
-			var infowindowContent = marker.id+"<button id='"+marker.id+"'>Set as Favorite</button>";
+			for (var i = 0; i < sheltersReturned.length; i++) {
+				if (sheltersReturned[i].id.$t == marker.id) {
+					var street = sheltersReturned[i].address1.$t;
+					if (street === undefined) {street = "";}
+					var town = sheltersReturned[i].city.$t;
+					var state = sheltersReturned[i].state.$t;
+					var zipCode = sheltersReturned[i].zip.$t;
+					var infowindowContent = "<h6><strong>"+sheltersReturned[i].name.$t+"</strong><h6>"
+								+"<p><small>Address: "+street+" "+town+", "+state+" "+zipCode+"</small></p>"
+								+"<p><small>Phone: "+sheltersReturned[i].phone.$t+"</small></p>"
+								+"<p><small>Email: "+sheltersReturned[i].email.$t+"</small></p>"
+								+"<button id='"+marker.id+"' class='waves-effect waves-light btn'>Set as Favorite</button>";
+				}
+			}
 			googleMap.infowindow.setContent(infowindowContent);
 			googleMap.infowindow.setPosition(marker.position);
 			googleMap.infowindow.open(map, marker);
@@ -457,18 +641,59 @@ var favorites = {
 		}
 	},
 	getFavorites: function() {
+		console.log("getFavorites ran");
+		$("#favShelters").empty();
 		database.ref("users/"+favorites.userKey).once("value", function(snapshot) {
-			console.log(snapshot.val());
+			console.log("getFavorites firebase ran");
+			favorites.userFavorites = snapshot.val().shelters;
+		}).then(function() {
+			for (var i = 0; i < favorites.userFavorites.length; i++) {
+				var shelterURL = baseURL+"shelter.get?"+yourKey+"id="+favorites.userFavorites[i]+"&"+format;
+				$.ajax({ 
+					method: 'GET', 
+					url: shelterURL + '&callback=?', 
+					dataType: 'json', 
+					success: function(data) {
+						var shelterDiv = $("<div>").attr("id", data.petfinder.shelter.id.$t).addClass("shelter");
+						var name = $("<h6>").html("<strong>"+data.petfinder.shelter.name.$t+"</strong>");
+						var street = data.petfinder.shelter.address1.$t;
+						if (street === undefined) {street = "";}
+						var town = data.petfinder.shelter.city.$t;
+						var state = data.petfinder.shelter.state.$t;
+						var zipCode = data.petfinder.shelter.zip.$t;
+						var address = $("<p>").html("<small>Address: "+street+" "+town+", "+state+" "+zipCode+"</small>");
+						var phone = $("<p>").html("<small>Phone: "+data.petfinder.shelter.phone.$t+"</small>");
+						var email = $("<p>").html("<small>Email: "+data.petfinder.shelter.email.$t+"</small>");
+						var search = $("<button>").attr("id", data.petfinder.shelter.id.$t).addClass("favSearch waves-effect waves-light btn").html("Search this Shelter");
+						shelterDiv.append(name)
+									.append(address)
+									.append(phone)
+									.append(email)
+									.append(search);
+						$("#favShelters").append(shelterDiv);
+						$("#"+data.petfinder.shelter.id.$t).on("click", function() {
+							var shelterID = $(this).attr("id");
+							favSearch(shelterID);
+						});
+					}
+				});
+			}
 		});
 	},
 	setFavorite: function() {
+		console.log("setFavorite ran");
 		var shelter = $(this).attr("id");
-		favorites.userFavorites.push(shelter);
-		database.ref("users/"+favorites.userKey).update({
-			shleters: favorites.userFavorites
-		}).then(favorites.getFavorites);
-		console.log("favorite set: "+shelter);
+		if (favorites.userFavorites.indexOf(shelter) === -1) {
+			if(favorites.userFavorites.length >= 4) {
+				favorites.userFavorites.shift();
+				favorites.userFavorites.push(shelter);
+			} else {
+				favorites.userFavorites.push(shelter);
+			}
+			database.ref("users/"+favorites.userKey).update({
+				shelters: favorites.userFavorites
+			}).then(favorites.getFavorites);
+		}
 	},
 }
 favorites.getKey();
-
