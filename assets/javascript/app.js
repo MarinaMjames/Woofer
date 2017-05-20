@@ -752,7 +752,7 @@ var favorites = {
 			database.ref("users/"+favorites.userKey).update({
 				shelters: favorites.userFavorites
 			});
-			$("#"+shelter).replaceWith("<p class='red-text'>Favorte Set</p>");
+			$("#"+shelter).replaceWith("<p class='red-text'>Favorite Set</p>");
 		}
 		$("#"+shelter).replaceWith("<p class='red-text'>Already a Favorite</p>");
 	},
