@@ -28,7 +28,6 @@ $(document).ready(function() {
 	var sheltersReturned = [];
 	var shelterDogs = [];
 	var clickedShelter;
-	// 
 
 
 
@@ -484,8 +483,6 @@ function favSearch(shelterID) {
 				// display markers after ajax is done
 				if (count == shelterIDs.length) {
 					for (var i = 0; i < sheltersReturned.length; i++) {
-						zip = sheltersReturned[i].zip.$t;
-						googleMap.codeAddress()
 						var location = {lat: Number(sheltersReturned[i].latitude.$t),
 										lng: Number(sheltersReturned[i].longitude.$t)};
 						var title = sheltersReturned[i].name.$t;
@@ -493,12 +490,17 @@ function favSearch(shelterID) {
 						googleMap.setMarker(location, title, id);
 					}
 				}
+				zip = sheltersReturned[0].zip.$t;
+				googleMap.codeAddress()
 			});
+
 			}
+			
 		}
 
 
 	  }).done(function() {
+	  	$("#favShelters").empty();
 	  	// empty mainContent div and append a div for the map to it
 		$("#mainContent").empty();
 		var mapDiv = $("<div>").attr("id", "map");
@@ -548,6 +550,7 @@ $("#submit-info").on("click", function() {
 
 
  	renderDogs();
+ 	$("#favShelters").empty();
 	// empty mainContent div and append a div for the map to it
 	$("#mainContent").empty();
 	var mapDiv = $("<div>").attr("id", "map");
@@ -569,6 +572,7 @@ var googleMap = {
 			zoom: 10,
 			gestureHandling: 'cooperative',
 		});
+
 
 		googleMap.infowindow = new google.maps.InfoWindow();
 
@@ -641,10 +645,8 @@ var favorites = {
 		}
 	},
 	getFavorites: function() {
-		console.log("getFavorites ran");
 		$("#favShelters").empty();
 		database.ref("users/"+favorites.userKey).once("value", function(snapshot) {
-			console.log("getFavorites firebase ran");
 			favorites.userFavorites = snapshot.val().shelters;
 		}).then(function() {
 			for (var i = 0; i < favorites.userFavorites.length; i++) {
@@ -654,7 +656,7 @@ var favorites = {
 					url: shelterURL + '&callback=?', 
 					dataType: 'json', 
 					success: function(data) {
-						var shelterDiv = $("<div>").attr("id", data.petfinder.shelter.id.$t).addClass("shelter");
+						var shelterDiv = $("<div>").attr("id", data.petfinder.shelter.id.$t).addClass("shelter col s3");
 						var name = $("<h6>").html("<strong>"+data.petfinder.shelter.name.$t+"</strong>");
 						var street = data.petfinder.shelter.address1.$t;
 						if (street === undefined) {street = "";}
@@ -664,7 +666,7 @@ var favorites = {
 						var address = $("<p>").html("<small>Address: "+street+" "+town+", "+state+" "+zipCode+"</small>");
 						var phone = $("<p>").html("<small>Phone: "+data.petfinder.shelter.phone.$t+"</small>");
 						var email = $("<p>").html("<small>Email: "+data.petfinder.shelter.email.$t+"</small>");
-						var search = $("<button>").attr("id", data.petfinder.shelter.id.$t).addClass("favSearch waves-effect waves-light btn").html("Search this Shelter");
+						var search = $("<button>").attr("id", data.petfinder.shelter.id.$t).addClass("favSearch waves-effect waves-light btn").html("Search Shelter");
 						shelterDiv.append(name)
 									.append(address)
 									.append(phone)
@@ -681,7 +683,6 @@ var favorites = {
 		});
 	},
 	setFavorite: function() {
-		console.log("setFavorite ran");
 		var shelter = $(this).attr("id");
 		if (favorites.userFavorites.indexOf(shelter) === -1) {
 			if(favorites.userFavorites.length >= 4) {
@@ -692,8 +693,10 @@ var favorites = {
 			}
 			database.ref("users/"+favorites.userKey).update({
 				shelters: favorites.userFavorites
-			}).then(favorites.getFavorites);
+			});
+			$("#"+shelter).replaceWith("<p class='red-text'>Favorte Set</p>");
 		}
+		$("#"+shelter).replaceWith("<p class='red-text'>Already a Favorite</p>");
 	},
 }
 favorites.getKey();

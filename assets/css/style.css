@@ -70,3 +70,10 @@ body{
 #btn-dog {
 	margin: 25px;
 }
+.shelter {
+	display: inline-block;
+	background-color: white;
+	border-color: #26a69a;
+	border-width: 1px;
+	border-style: solid;
+}
