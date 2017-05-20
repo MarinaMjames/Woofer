@@ -30,7 +30,7 @@ style.css - Marina
 Woofer Icon - Marina
 * **Javascript:** Petfinder API - Andrew
 		Google Maps API - Joe
-		Firebase - 
+		Firebase - Joe
 		Ajax + Other Code - Andrew, Joe, Marina 
 		GSAP - Marina
 

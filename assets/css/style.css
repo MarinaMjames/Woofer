@@ -60,9 +60,13 @@ body{
 	height: 200px;
 	width: 200px;
 	padding: 5px;
+	margin: 20px;
 }
 #btn-dog {
 	margin: 25px;
+}
+#pet-info{
+	margin: 20px;
 }
 .shelter {
 	display: inline-block;
@@ -70,4 +74,34 @@ body{
 	border-color: #26a69a;
 	border-width: 1px;
 	border-style: solid;
+}
+.holder {
+	position:relative;
+	top:200px;
+	left:250px;
+	width:100px;
+	height:50px;
+	overflow:visible;
+}
+ul.list {
+	position:relative;
+	display:inline-block;
+	list-style:none;
+}
+ul.list.cloned {
+	position:absolute;
+	top:0;
+	left:0;
+	background-color: transparent;
+}
+ul.list li {
+	background-color: transparent;
+	float:left;
+	width:100px;
+	height:50px;
+	text-align:center;
+	font-size:30px;
+}
+.get-started{
+	top: 300px;
 }
