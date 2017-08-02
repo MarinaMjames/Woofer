@@ -19,6 +19,11 @@ We used the [`Petfinder API`](https://www.petfinder.com/developers/api-docs) and
 ![screen shot 2017-05-08 at 9 11 55 pm](https://cloud.githubusercontent.com/assets/26077051/25831570/1ca6be4c-3433-11e7-80c4-747e22a4b4d6.png)
 
 ## Screenshots: 
+![screen shot 2017-08-02 at 4 10 50 pm](https://user-images.githubusercontent.com/26077051/28892886-6edc237a-779d-11e7-8c15-4c6d4fa72c30.png)
+![screen shot 2017-08-02 at 4 11 22 pm](https://user-images.githubusercontent.com/26077051/28892883-6ed605c6-779d-11e7-8619-4c289748123e.png)
+![screen shot 2017-08-02 at 4 11 57 pm](https://user-images.githubusercontent.com/26077051/28892884-6ed8059c-779d-11e7-8952-f3b7ed8b305f.png)
+![screen shot 2017-08-02 at 4 12 09 pm](https://user-images.githubusercontent.com/26077051/28892887-6ede8b6a-779d-11e7-989e-907e296d02cb.png)
+![screen shot 2017-08-02 at 4 12 22 pm](https://user-images.githubusercontent.com/26077051/28892885-6edc1858-779d-11e7-8d81-4f029d6ba69c.png)
 
 
 ## Team Efforts:
